@@ -1,944 +1,1877 @@
-# Re-generating clean index.html without SVG data URIs so mobile browsers render all 6 cards reliably.
-clean_html = """<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Neko Haul 日本代购 · 电子商品目录</title>
-  <style>
-    :root {
-      --bg-night: #090d1f;
-      --bg-night-2: #121a38;
-      --card-bg: #fffdf9;
-      --card-tint: #f8f3e8;
-      --ink-dark: #15192b;
-      --ink-muted: #5f667e;
-      --gold: #e6be6a;
-      --gold-bright: #f7dc96;
-      --gold-dark: #9e7628;
-      --crimson: #b92b27;
-      --sakura: #f6b6c8;
-      --shadow-card: 0 6px 18px rgba(9, 13, 31, 0.12);
-      --radius-md: 14px;
+  <title>Neko Haul · 精選商品目錄</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            midnight: '#0B1120',
+            midnightLight: '#151E35',
+            gold: '#E5C158',
+            goldBright: '#F7DC96',
+            goldDark: '#9A7424',
+            crimson: '#D93829',
+            cream: '#FAF6EE',
+            creamDark: '#F0E8D8',
+            ink: '#15192B',
+            muted: '#646B82'
+          },
+          fontFamily: {
+            sans: ['"Noto Sans TC"', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif']
+          }
+        }
+      }
     }
-
+  </script>
+  <style>
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
-
     body {
+      background-color: #0B1120;
+      color: #15192B;
       margin: 0;
-      padding: 0 0 96px 0;
-      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(180deg, #090d1f 0%, #101733 230px, #f3efe6 230px, #f6f2ea 100%);
-      color: var(--ink-dark);
-      min-height: 100vh;
+      padding: 0;
     }
-
-    .hero {
-      position: relative;
-      background: linear-gradient(155deg, #070b1a 0%, #111938 62%, #1b254b 100%);
-      color: #fffaf0;
-      padding: 20px 16px 24px;
-      border-bottom: 1px solid rgba(230, 190, 106, 0.35);
-    }
-
-    .hero-inner {
-      max-width: 680px;
-      margin: 0 auto;
-    }
-
-    .hero-top {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .neko-avatar {
-      width: 60px;
-      height: 60px;
-      flex-shrink: 0;
-      border-radius: 18px;
-      background: linear-gradient(145deg, #0c1229, #1f2d5c);
-      border: 1.5px solid rgba(247, 220, 150, 0.7);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-bright);
-      font-weight: 800;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    }
-
-    .neko-avatar span:first-child {
-      font-size: 22px;
-      line-height: 1.1;
-    }
-
-    .neko-avatar span:last-child {
-      font-size: 9px;
-      letter-spacing: 0.6px;
-      color: var(--sakura);
-    }
-
-    .brand-tag {
-      display: inline-block;
-      font-size: 11px;
-      color: var(--gold-bright);
-      background: rgba(230, 190, 106, 0.14);
-      border: 1px solid rgba(230, 190, 106, 0.35);
-      padding: 2px 8px;
-      border-radius: 999px;
-      margin-bottom: 4px;
-    }
-
-    .brand-title {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff8e6;
-    }
-
-    .brand-sub {
-      margin: 3px 0 0;
-      font-size: 11.5px;
-      color: rgba(255, 250, 240, 0.84);
-    }
-
-    .rules-strip {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 7px;
-    }
-
-    .rule-chip {
-      background: rgba(255, 250, 240, 0.08);
-      border: 1px solid rgba(230, 190, 106, 0.25);
-      border-radius: 10px;
-      padding: 6px 5px;
-      text-align: center;
-      font-size: 10.5px;
-      line-height: 1.3;
-      color: #f8f1e2;
-    }
-
-    .rule-chip strong {
-      display: block;
-      color: var(--gold-bright);
-      font-size: 11px;
-      margin-bottom: 1px;
-    }
-
-    .container {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 12px 12px 0;
-    }
-
-    .toolbar {
-      background: var(--card-bg);
-      border-radius: var(--radius-md);
-      padding: 10px;
-      box-shadow: 0 4px 12px rgba(9, 13, 31, 0.06);
-      border: 1px solid rgba(158, 118, 40, 0.14);
-      margin-bottom: 12px;
-    }
-
-    .category-tabs {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-
-    .cat-btn {
-      flex: 0 0 auto;
-      border: 1px solid #e4dccb;
-      background: #faf6ee;
-      color: var(--ink-muted);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 11px;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-
-    .cat-btn.active {
-      background: #101733;
-      color: var(--gold-bright);
-      border-color: #101733;
-    }
-
-    .view-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 8px;
-      padding-top: 8px;
-      border-top: 1px dashed #e7decb;
-      font-size: 11.5px;
-      color: var(--ink-muted);
-    }
-
-    .col-switch {
-      display: inline-flex;
-      background: #f1eadb;
-      padding: 2px;
-      border-radius: 8px;
-      gap: 2px;
-    }
-
-    .col-btn {
-      border: none;
-      background: transparent;
-      color: var(--ink-muted);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 8px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .col-btn.active {
-      background: #ffffff;
-      color: var(--ink-dark);
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .product-grid.cols-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 7px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 1px solid rgba(158, 118, 40, 0.16);
-      box-shadow: var(--shadow-card);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .cover-box {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #fffaf0;
-      cursor: pointer;
-    }
-
-    .cols-3 .cover-box {
-      padding: 6px;
-    }
-
-    .cover-tag {
-      position: absolute;
-      top: 7px;
-      left: 7px;
-      background: rgba(9, 13, 31, 0.82);
-      color: var(--gold-bright);
-      font-size: 9.5px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 999px;
-    }
-
-    .cols-3 .cover-tag {
-      font-size: 8.5px;
-      top: 5px;
-      left: 5px;
-      padding: 2px 5px;
-    }
-
-    .cover-main {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--gold-bright);
-      line-height: 1.25;
-      margin-top: 8px;
-    }
-
-    .cols-3 .cover-main {
-      font-size: 11px;
-      margin-top: 10px;
-    }
-
-    .cover-sub {
-      font-size: 11px;
-      color: rgba(255, 250, 240, 0.88);
-      margin-top: 4px;
-    }
-
-    .cols-3 .cover-sub {
-      font-size: 9px;
-    }
-
-    .card-body {
-      padding: 9px;
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      justify-content: space-between;
-    }
-
-    .cols-3 .card-body {
-      padding: 6px;
-    }
-
-    .prod-title {
-      margin: 0;
-      font-size: 12.5px;
-      font-weight: 700;
-      line-height: 1.32;
-      color: var(--ink-dark);
-      cursor: pointer;
-    }
-
-    .cols-3 .prod-title {
-      font-size: 10.5px;
-      line-height: 1.25;
-    }
-
-    .prod-note {
-      margin: 4px 0 0;
-      font-size: 10.5px;
-      color: var(--ink-muted);
-      line-height: 1.3;
-    }
-
-    .cols-3 .prod-note {
+    /* 隱藏橫向捲軸但保持滑動 */
+    .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
-
-    .price-row {
-      margin-top: 7px;
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 4px;
-      flex-wrap: wrap;
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
-
-    .price-rm {
-      font-size: 14.5px;
-      font-weight: 800;
-      color: var(--crimson);
+    /* 招財貓輕微擺手動畫 */
+    @keyframes pawWave {
+      0%, 100% { transform: rotate(0deg); }
+      20% { transform: rotate(-10deg); }
+      40% { transform: rotate(7deg); }
+      60% { transform: rotate(-6deg); }
+      80% { transform: rotate(0deg); }
     }
-
-    .cols-3 .price-rm {
-      font-size: 11.5px;
+    .neko-paw {
+      transform-origin: 66px 34px;
+      animation: pawWave 3s ease-in-out infinite;
     }
-
-    .price-yen {
-      font-size: 10px;
-      color: var(--ink-muted);
+    /* 抽屜滑入動畫 */
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0.4; }
+      to { transform: translateY(0); opacity: 1; }
     }
-
-    .cols-3 .price-yen {
-      display: none;
+    .sheet-animate {
+      animation: slideUp 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-
-    .card-actions {
-      margin-top: 7px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 5px;
+    /* 推薦標籤流光微閃 */
+    .rec-badge {
+      background: linear-gradient(135deg, #D93829 0%, #B32417 100%);
+      box-shadow: 0 2px 8px rgba(217, 56, 41, 0.38);
     }
-
-    .cols-3 .card-actions {
-      grid-template-columns: 1fr;
-      gap: 4px;
+    .star-badge {
+      background: linear-gradient(135deg, #9A7424 0%, #785614 100%);
+      color: #FFF9EB;
+      border: 1px solid rgba(247, 220, 150, 0.65);
+      box-shadow: 0 2px 8px rgba(154, 116, 36, 0.38);
     }
-
-    .btn-book {
-      border: none;
-      border-radius: 8px;
-      background: #101733;
-      color: var(--gold-bright);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 7px 6px;
-      cursor: pointer;
-    }
-
-    .cols-3 .btn-book {
-      font-size: 9.5px;
-      padding: 5px 4px;
-    }
-
-    .btn-add {
-      border: 1px solid #d8caa8;
-      border-radius: 8px;
-      background: #fff9ec;
-      color: var(--gold-dark);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 7px 8px;
-      cursor: pointer;
-    }
-
-    .cols-3 .btn-add {
-      font-size: 9.5px;
-      padding: 4px;
-    }
-
-    .cart-bar {
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 40;
-      background: rgba(9, 13, 31, 0.96);
-      border-top: 1px solid rgba(230, 190, 106, 0.45);
-      padding: 10px 14px;
-      color: #fffaf0;
-    }
-
-    .cart-bar-inner {
-      max-width: 680px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .cart-summary {
-      font-size: 12px;
-      line-height: 1.35;
-    }
-
-    .cart-summary strong {
-      color: var(--gold-bright);
-    }
-
-    .cart-deposit {
-      font-size: 10.5px;
-      color: var(--sakura);
-    }
-
-    .btn-view-list {
-      border: 1px solid rgba(247, 220, 150, 0.5);
-      background: transparent;
-      color: #fffaf0;
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 8px 10px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .btn-wa-send {
-      border: none;
-      background: #e6be6a;
-      color: #0b1024;
-      font-size: 12px;
-      font-weight: 800;
-      padding: 8px 11px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(6, 9, 20, 0.68);
-      z-index: 60;
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-    }
-
-    .modal-backdrop.open {
-      display: flex;
-    }
-
-    .modal-sheet {
-      width: 100%;
-      max-width: 680px;
-      max-height: 85vh;
-      overflow-y: auto;
-      background: var(--card-bg);
-      border-radius: 20px 20px 0 0;
-      padding: 16px;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
-    .modal-title {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 800;
-    }
-
-    .modal-close {
-      border: none;
-      background: #efe7d6;
-      color: var(--ink-dark);
-      width: 28px;
-      height: 28px;
-      border-radius: 999px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .option-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-top: 8px;
-    }
-
-    .opt-chip {
-      border: 1px solid #d7cbb3;
-      background: #faf6ee;
-      color: var(--ink-dark);
-      font-size: 12px;
-      padding: 5px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .opt-chip.selected {
-      background: #101733;
-      color: var(--gold-bright);
-      border-color: #101733;
-    }
-
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 0;
-      border-bottom: 1px solid #ece3d2;
-      font-size: 12.5px;
-    }
-
-    .qty-ctrl {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .qty-btn {
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
-      border: 1px solid #d5c7ab;
-      background: #fff;
-      font-weight: 700;
-      cursor: pointer;
+    .classic-badge {
+      background: rgba(11, 17, 32, 0.88);
+      color: #F7DC96;
+      border: 1px solid rgba(229, 193, 88, 0.55);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     }
   </style>
 </head>
-<body>
-  <header class="hero">
-    <div class="hero-inner">
-      <div class="hero-top">
-        <div class="neko-avatar">
-          <span>🐱</span>
-          <span>NEKO HAUL</span>
+<body class="bg-[#070B14] min-h-screen flex justify-center font-sans antialiased">
+
+  <!-- 手機優先主容器（桌面端置中呈現精緻行動畫布，手機端全寬） -->
+  <div class="w-full max-w-[540px] min-h-screen bg-[#F5EFE4] shadow-2xl relative pb-24 flex flex-col">
+
+    <!-- 頂部星夜黑金品牌區（已移除舊版 50% 定金與三張規則卡） -->
+    <header class="relative overflow-hidden bg-gradient-to-br from-[#080D1A] via-[#0B1120] to-[#17223D] text-[#FAF6EE] px-4 pt-5 pb-5 border-b border-gold/30">
+      <!-- 星塵裝飾點 -->
+      <div class="pointer-events-none absolute inset-0 opacity-60" style="background-image: radial-gradient(1.5px 1.5px at 15% 25%, #F7DC96, transparent), radial-gradient(1px 1px at 72% 18%, #FFFFFF, transparent), radial-gradient(2px 2px at 86% 62%, #E5C158, transparent), radial-gradient(1px 1px at 38% 82%, #F7DC96, transparent);"></div>
+
+      <div class="relative z-10 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <!-- 星夜黑金招財貓徽章 -->
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0F172E] to-[#1D2B53] border border-gold/60 shadow-lg flex items-center justify-center shrink-0">
+            <svg width="44" height="44" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Neko Haul 招財貓">
+              <path d="M18 34L15 14L33 24C36 22.5 39 22 42 22C45 22 48 22.5 51 24L65 14L63 34" fill="#101836" stroke="#E5C158" stroke-width="2.6" stroke-linejoin="round"/>
+              <path d="M20 29L18 19L29 25" fill="#E5C158" opacity="0.85"/>
+              <path d="M61 29L62 19L53 25" fill="#E5C158" opacity="0.85"/>
+              <g class="neko-paw">
+                <path d="M61 42C68 35 73 27 69 21C66 17 61 20 59 26L56 36" fill="#101836" stroke="#E5C158" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="66" cy="22" r="2.2" fill="#F6B6C8"/>
+              </g>
+              <ellipse cx="41" cy="48" rx="22" ry="21" fill="#0F1733" stroke="#E5C158" stroke-width="2.6"/>
+              <ellipse cx="32" cy="41" rx="3.4" ry="4.4" fill="#F7DC96"/>
+              <ellipse cx="50" cy="41" rx="3.4" ry="4.4" fill="#F7DC96"/>
+              <circle cx="32" cy="41" r="1.4" fill="#0B1120"/>
+              <circle cx="50" cy="41" r="1.4" fill="#0B1120"/>
+              <path d="M39 46L41 48L43 46" stroke="#F7DC96" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M37 50C38.5 52 40.5 51.5 41 49.5C41.5 51.5 43.5 52 45 50" stroke="#F7DC96" stroke-width="1.8" stroke-linecap="round"/>
+              <line x1="16" y1="42" x2="25" y2="44" stroke="#E5C158" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="16" y1="48" x2="25" y2="48" stroke="#E5C158" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="57" y1="44" x2="66" y2="42" stroke="#E5C158" stroke-width="1.6" stroke-linecap="round"/>
+              <line x1="57" y1="48" x2="66" y2="48" stroke="#E5C158" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M23 56C29 61 53 61 59 56" stroke="#D93829" stroke-width="4.5" stroke-linecap="round"/>
+              <circle cx="41" cy="61" r="4.5" fill="#F7DC96" stroke="#D93829" stroke-width="1.4"/>
+            </svg>
+          </div>
+          <div class="min-w-0">
+            <h1 id="headerTitle" class="text-lg sm:text-xl font-black tracking-wide bg-gradient-to-r from-[#FFF9EB] via-[#F7DC96] to-[#E5C158] bg-clip-text text-transparent truncate">
+              Neko Haul 馬來西亞精選
+            </h1>
+            <p id="headerSubtitle" class="text-xs text-[#FAF6EE]/80 mt-0.5 truncate">
+              IG: @neko.haul · 道地伴手禮與零食嚴選
+            </p>
+          </div>
         </div>
-        <div>
-          <div class="brand-tag">5周日本代购 · 一口价免算数学题</div>
-          <h1 class="brand-title">Neko Haul 日本代购</h1>
-          <p class="brand-sub">IG: @neko.haul · 50% 定金锁单 · 轻量化严选</p>
-        </div>
+
+        <!-- 圖片上傳管理中心入口（支援每款至少10張圖上傳） -->
+        <button id="openImgManagerBtn" type="button" class="shrink-0 px-2.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 active:scale-95 border border-gold/40 text-goldBright text-xs font-bold flex items-center gap-1 transition">
+          <span>📷</span>
+          <span>圖片管理</span>
+        </button>
       </div>
-      <div class="rules-strip">
-        <div class="rule-chip"><strong>一口价透明</strong>含代购与基础运</div>
-        <div class="rule-chip"><strong>50% 定金锁单</strong>售罄全额退还</div>
-        <div class="rule-chip"><strong>28寸轻便精选</strong>主打高性价比</div>
+
+      <!-- 雙館模式切換開關：馬來西亞產品頁面 vs 日本產品頁面 -->
+      <div class="relative z-10 mt-4 bg-black/35 p-1 rounded-2xl border border-gold/30 grid grid-cols-2 gap-1">
+        <button id="modeMsiaBtn" type="button" class="py-2 px-3 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#E5C158] to-[#F3D57B] text-midnight shadow">
+          <span>🇲🇾 馬來西亞商品館</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-midnight/15 font-bold">¥ 售價</span>
+        </button>
+        <button id="modeJapanBtn" type="button" class="py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-[#FAF6EE]/75 hover:text-white">
+          <span>🇯🇵 日本代購商品館</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 font-semibold">RM 售價</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 搜尋、分類篩選與每行 2/3 列控制列 -->
+    <main class="px-3 pt-3 flex-1">
+      <section class="bg-cream rounded-2xl p-3 shadow-sm border border-goldDark/15 mb-3">
+        <!-- 搜尋框 -->
+        <div class="relative mb-2.5">
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="搜尋商品名稱、品牌或口味（如：Super Ring、白咖啡、豆沙餅）..."
+            class="w-full pl-9 pr-8 py-2 text-xs bg-[#F3ECE0] border border-[#E2D6C1] rounded-xl text-ink placeholder-[#8A90A6] focus:outline-none focus:border-midnight transition"
+          />
+          <svg class="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+          <button id="clearSearchBtn" type="button" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-muted hover:text-ink font-bold px-1">✕</button>
+        </div>
+
+        <!-- 分類標籤（橫向可滑動） -->
+        <div id="categoryTabs" class="flex gap-1.5 overflow-x-auto no-scrollbar pb-1">
+          <!-- 動態產生 -->
+        </div>
+
+        <!-- 數量統計 + 每行 2 個 / 每行 3 個切換 -->
+        <div class="flex items-center justify-between mt-2.5 pt-2.5 border-t border-dashed border-[#E3D7C3] text-xs text-muted">
+          <span id="itemCountText" class="font-medium">共 45 款精選商品</span>
+          <div class="inline-flex bg-[#ECE3D3] p-0.5 rounded-xl gap-0.5">
+            <button id="btnCol2" type="button" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white text-midnight shadow-sm transition">每行 2 個</button>
+            <button id="btnCol3" type="button" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-muted hover:text-ink transition">每行 3 個</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 商品網格區 -->
+      <section id="productGrid" class="grid grid-cols-2 gap-2.5"></section>
+
+      <!-- 空搜尋狀態 -->
+      <div id="emptyState" class="hidden text-center py-12 px-4">
+        <div class="text-3xl mb-2">🐱</div>
+        <p class="text-sm font-bold text-ink">找不到符合條件的商品</p>
+        <p class="text-xs text-muted mt-1">試試看切換分類或清除搜尋關鍵字</p>
+        <button id="resetFilterBtn" type="button" class="mt-3 px-4 py-2 rounded-xl bg-midnight text-goldBright text-xs font-bold">顯示全部商品</button>
+      </div>
+    </main>
+
+    <!-- 底部懸浮購物車列（已移除 50% 定金與一鍵發 WhatsApp 按鈕，改為「購物車」） -->
+    <div class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[540px] z-40 bg-midnight/95 backdrop-blur-md border-t border-gold/40 px-4 py-3 text-[#FAF6EE] shadow-[0_-6px_20px_rgba(0,0,0,0.28)]">
+      <div class="flex items-center justify-between gap-3">
+        <div class="text-xs leading-snug">
+          <div class="flex items-center gap-1.5">
+            <span class="text-[#FAF6EE]/80">已選</span>
+            <strong id="cartCount" class="text-goldBright text-sm font-extrabold">0</strong>
+            <span class="text-[#FAF6EE]/80">件 · 合計</span>
+            <strong id="cartTotal" class="text-goldBright text-base font-black">¥ 0</strong>
+          </div>
+          <div id="cartSubHint" class="text-[11px] text-[#FAF6EE]/65 mt-0.5">點擊「+ 購物車」即可加入統計</div>
+        </div>
+
+        <button id="openCartBtn" type="button" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-[#E5C158] to-[#F3D478] text-midnight font-extrabold text-xs shadow-md active:scale-95 transition flex items-center gap-1.5">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+          </svg>
+          <span>購物車</span>
+          <span id="cartBadgePill" class="px-1.5 py-0.5 rounded-full bg-midnight text-goldBright text-[10px] font-black">0</span>
+        </button>
       </div>
     </div>
-  </header>
 
-  <main class="container">
-    <section class="toolbar">
-      <div class="category-tabs" id="categoryTabs">
-        <button class="cat-btn active" data-cat="全部">全部精选</button>
-        <button class="cat-btn" data-cat="GU 穿搭">GU 穿搭套装</button>
-        <button class="cat-btn" data-cat="扭蛋 IP">热门扭蛋 IP</button>
-        <button class="cat-btn" data-cat="Costco 精选">Costco 精选</button>
-      </div>
-      <div class="view-bar">
-        <span id="itemCountText">共 6 款精选商品</span>
-        <div class="col-switch">
-          <button class="col-btn active" id="btnCol2" type="button">每行 2 个</button>
-          <button class="col-btn" id="btnCol3" type="button">每行 3 个</button>
+    <!-- 商品詳情與多圖輪播彈窗（已移除參考匯率與 WhatsApp 按鈕，「選擇規格/玩法」改為「選擇規格」，「+ 加入清單」改為「+ 加入購物車」） -->
+    <div id="detailModal" class="fixed inset-0 bg-black/70 z-50 hidden items-end sm:items-center justify-center">
+      <div class="w-full max-w-[540px] max-h-[90vh] overflow-y-auto bg-cream rounded-t-3xl sm:rounded-3xl p-4 pb-6 shadow-2xl sheet-animate">
+        <div class="w-10 h-1 bg-[#D8CCB6] rounded-full mx-auto mb-3 sm:hidden"></div>
+
+        <!-- 頂部關閉與快速上傳該商品圖片按鈕 -->
+        <div class="flex items-center justify-between gap-2 mb-2.5">
+          <div id="detailBadgesRow" class="flex flex-wrap items-center gap-1.5">
+            <span id="detailCatBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-midnight text-goldBright">分類</span>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button id="detailQuickUploadBtn" type="button" class="px-2.5 py-1 rounded-full bg-[#EFE6D5] hover:bg-[#E4D7C0] text-goldDark text-[11px] font-bold transition">
+              📷 管理商品圖 (<span id="detailPhotoCount">1</span>/10)
+            </button>
+            <button id="closeDetailBtn" type="button" class="w-8 h-8 rounded-full bg-[#EFE6D5] text-ink font-bold flex items-center justify-center">✕</button>
+          </div>
+        </div>
+
+        <!-- 多圖預覽輪播區（支援展示已上傳的 1~10 張圖片） -->
+        <div class="relative rounded-2xl overflow-hidden bg-[#EFE7D8] border border-[#E2D6C1] aspect-[16/11] mb-3">
+          <div id="detailCarouselTrack" class="w-full h-full flex items-center justify-center"></div>
+
+          <!-- 左右切換箭頭（多於 1 張圖時顯示） -->
+          <button id="prevImgBtn" type="button" class="hidden absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-midnight/75 text-goldBright font-bold flex items-center justify-center shadow">‹</button>
+          <button id="nextImgBtn" type="button" class="hidden absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-midnight/75 text-goldBright font-bold flex items-center justify-center shadow">›</button>
+
+          <!-- 圖片指示點 -->
+          <div id="carouselDots" class="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 px-2.5 py-1 rounded-full bg-midnight/60 backdrop-blur-sm"></div>
+        </div>
+
+        <!-- 縮圖列（若有上傳多張圖可快速點選） -->
+        <div id="detailThumbStrip" class="hidden flex gap-1.5 overflow-x-auto no-scrollbar mb-3 pb-0.5"></div>
+
+        <!-- 商品名稱與價格 -->
+        <div class="flex items-start justify-between gap-3">
+          <h2 id="detailTitle" class="text-base sm:text-lg font-black text-ink leading-snug">商品名稱</h2>
+          <div id="detailPrice" class="text-lg sm:text-xl font-black text-crimson shrink-0">¥ 880</div>
+        </div>
+        <p id="detailNote" class="text-xs text-muted mt-1 leading-relaxed"></p>
+
+        <!-- 選擇規格區（僅在有規格/口味時顯示） -->
+        <div id="optionGroup" class="mt-4 pt-3 border-t border-dashed border-[#DFD2BC]">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-extrabold text-ink">選擇規格</span>
+            <span id="selectedSpecText" class="text-[11px] font-bold text-goldDark"></span>
+          </div>
+          <div id="optionChips" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- 數量選擇 + 全寬「+ 加入購物車」主按鈕 -->
+        <div class="mt-5 flex items-center gap-2.5">
+          <div class="inline-flex items-center bg-[#EFE6D5] rounded-xl p-1 border border-[#DFD2BC]">
+            <button id="detailQtyMinus" type="button" class="w-8 h-8 rounded-lg bg-white text-ink font-black shadow-sm">−</button>
+            <span id="detailQtyVal" class="w-8 text-center text-xs font-extrabold text-ink">1</span>
+            <button id="detailQtyPlus" type="button" class="w-8 h-8 rounded-lg bg-white text-ink font-black shadow-sm">＋</button>
+          </div>
+          <button id="modalAddBtn" type="button" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#0B1120] to-[#1A2647] text-goldBright font-extrabold text-sm shadow-lg active:scale-[0.99] transition">
+            ＋ 加入購物車
+          </button>
         </div>
       </div>
-    </section>
+    </div>
 
-    <section class="product-grid" id="productGrid"></section>
-  </main>
+    <!-- 購物車抽屜彈窗（已移除 50% 定金與一鍵發 WhatsApp，保留複製購物車清單功能） -->
+    <div id="cartModal" class="fixed inset-0 bg-black/70 z-50 hidden items-end sm:items-center justify-center">
+      <div class="w-full max-w-[540px] max-h-[88vh] flex flex-col bg-cream rounded-t-3xl sm:rounded-3xl p-4 pb-6 shadow-2xl sheet-animate">
+        <div class="w-10 h-1 bg-[#D8CCB6] rounded-full mx-auto mb-3 sm:hidden"></div>
+        <div class="flex items-center justify-between pb-3 border-b border-[#E5D9C3]">
+          <div>
+            <h2 class="text-base font-black text-ink">我的購物車</h2>
+            <p id="cartModeLabel" class="text-[11px] text-muted mt-0.5">目前顯示：馬來西亞商品館（日幣計價）</p>
+          </div>
+          <button id="closeCartBtn" type="button" class="w-8 h-8 rounded-full bg-[#EFE6D5] text-ink font-bold flex items-center justify-center">✕</button>
+        </div>
 
-  <div class="cart-bar">
-    <div class="cart-bar-inner">
-      <div class="cart-summary">
-        <div>已选 <strong id="cartCount">0</strong> 件 · 合计 <strong id="cartTotal">RM 0</strong></div>
-        <div class="cart-deposit">预估 50% 定金：<span id="cartDeposit">RM 0.00</span></div>
-      </div>
-      <div style="display:flex;gap:6px;">
-        <button class="btn-view-list" id="openCartBtn" type="button">清单</button>
-        <button class="btn-wa-send" id="sendCartWaBtn" type="button">一键发 WhatsApp</button>
+        <div id="cartItemsList" class="flex-1 overflow-y-auto py-2 divide-y divide-[#EAE0CE]"></div>
+
+        <div class="pt-3 mt-2 border-t border-dashed border-[#D8CBB4]">
+          <div class="flex items-center justify-between text-sm">
+            <span class="font-bold text-muted">商品總計（共 <span id="modalTotalQty">0</span> 件）</span>
+            <strong id="modalTotal" class="text-lg font-black text-crimson">¥ 0</strong>
+          </div>
+
+          <div class="mt-3.5 flex gap-2">
+            <button id="clearCartBtn" type="button" class="px-3.5 py-2.5 rounded-xl border border-[#D4C5AA] bg-[#FAF4E8] text-muted hover:text-ink text-xs font-bold">
+              清空
+            </button>
+            <button id="copyCartBtn" type="button" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#0B1120] to-[#1B274A] text-goldBright font-extrabold text-xs sm:text-sm shadow-md active:scale-[0.99] transition">
+              📋 複製購物車清單
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal-backdrop" id="detailModal">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <h2 class="modal-title" id="detailTitle">商品名</h2>
-        <button class="modal-close" id="closeDetailBtn" type="button">✕</button>
-      </div>
-      <p class="prod-note" id="detailDesc" style="display:block;margin-top:6px;font-size:12.5px;"></p>
-      <div style="margin-top:12px;">
-        <div style="font-size:12px;font-weight:700;color:#5f667e;">选择规格 / 玩法</div>
-        <div class="option-chips" id="optionChips"></div>
-      </div>
-      <div style="margin-top:16px;display:flex;gap:8px;">
-        <button class="btn-add" id="modalAddBtn" style="flex:1;padding:10px;" type="button">＋ 加入清单</button>
-        <button class="btn-book" id="modalWaBtn" style="flex:1.4;padding:10px;font-size:12.5px;" type="button">WhatsApp 立即预订</button>
+    <!-- 多圖上傳管理中心彈窗（每款商品提供 10 個圖片上傳位置 + 批次匯入） -->
+    <div id="imgManagerModal" class="fixed inset-0 bg-black/75 z-50 hidden items-end sm:items-center justify-center">
+      <div class="w-full max-w-[540px] max-h-[92vh] flex flex-col bg-cream rounded-t-3xl sm:rounded-3xl p-4 pb-6 shadow-2xl sheet-animate">
+        <div class="w-10 h-1 bg-[#D8CCB6] rounded-full mx-auto mb-3 sm:hidden"></div>
+        <div class="flex items-center justify-between pb-3 border-b border-[#E5D9C3]">
+          <div>
+            <h2 class="text-base font-black text-ink">📷 商品圖片上傳管理（每款 10 張位置）</h2>
+            <p class="text-[11px] text-muted mt-0.5">支援一次多選上傳本機照片，或貼上圖片網址，自動儲存於瀏覽器</p>
+          </div>
+          <button id="closeImgManagerBtn" type="button" class="w-8 h-8 rounded-full bg-[#EFE6D5] text-ink font-bold flex items-center justify-center">✕</button>
+        </div>
+
+        <!-- 選擇要編輯圖片的商品 -->
+        <div class="mt-3">
+          <label for="imgTargetProductSelect" class="block text-xs font-extrabold text-ink mb-1">1. 選擇要上傳圖片的商品：</label>
+          <select id="imgTargetProductSelect" class="w-full px-3 py-2 rounded-xl bg-white border border-[#D8CBB4] text-xs font-bold text-ink focus:outline-none focus:border-midnight"></select>
+        </div>
+
+        <!-- 一鍵批次上傳多張圖片（最多 10 張） -->
+        <div class="mt-3 p-3 rounded-2xl bg-[#EFE6D5]/70 border border-dashed border-goldDark/40 flex flex-wrap items-center justify-between gap-2">
+          <div class="text-xs">
+            <div class="font-extrabold text-ink">2. 批次上傳本機圖片（圖 1 ～ 圖 10）</div>
+            <div class="text-[11px] text-muted">可一次選取最多 10 張照片自動填入空位</div>
+          </div>
+          <label class="cursor-pointer px-3.5 py-2 rounded-xl bg-midnight text-goldBright text-xs font-extrabold shadow hover:opacity-95 transition">
+            <span>＋ 選擇照片上傳</span>
+            <input id="batchFileInput" type="file" accept="image/*" multiple class="hidden" />
+          </label>
+        </div>
+
+        <!-- 10 個獨立圖片上傳格子（圖 1 ~ 圖 10） -->
+        <div class="mt-3 flex-1 overflow-y-auto pr-0.5">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-extrabold text-ink">3. 10 張圖片位置預覽與個別管理</span>
+            <button id="clearProductImgsBtn" type="button" class="text-[11px] font-bold text-crimson hover:underline">清除此商品所有圖片</button>
+          </div>
+          <div id="tenSlotsGrid" class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <!-- 動態渲染 10 個上傳槽位 -->
+          </div>
+        </div>
+
+        <!-- 底部匯出設定按鈕 -->
+        <div class="mt-3 pt-3 border-t border-[#E5D9C3] flex items-center justify-between gap-2">
+          <button id="exportImagesJsonBtn" type="button" class="px-3 py-2 rounded-xl border border-[#D4C5AA] bg-white text-ink text-xs font-bold">
+            匯出圖片配置 JSON
+          </button>
+          <button id="doneImgManagerBtn" type="button" class="px-5 py-2 rounded-xl bg-gradient-to-r from-[#E5C158] to-[#F3D478] text-midnight text-xs font-extrabold shadow">
+            完成並查看效果
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal-backdrop" id="cartModal">
-    <div class="modal-sheet">
-      <div class="modal-header">
-        <h2 class="modal-title">我的代购清单</h2>
-        <button class="modal-close" id="closeCartBtn" type="button">✕</button>
-      </div>
-      <div id="cartItemsList" style="margin-top:10px;"></div>
-      <div style="margin-top:14px;padding-top:10px;border-top:1px dashed #dfd4be;font-size:13px;">
-        <div>商品合计：<strong id="modalTotal">RM 0</strong></div>
-        <div style="color:#b92b27;margin-top:4px;">需付 50% 锁单定金：<strong id="modalDeposit">RM 0.00</strong></div>
-      </div>
-      <div style="margin-top:14px;display:flex;gap:8px;">
-        <button class="btn-add" id="clearCartBtn" style="padding:10px 12px;" type="button">清空</button>
-        <button class="btn-book" id="modalSendWaBtn" style="flex:1;padding:11px;font-size:13px;" type="button">发送清单到 WhatsApp</button>
+    <!-- 輕量提示氣泡 Toast -->
+    <div id="toastBox" class="fixed top-5 left-1/2 -translate-x-1/2 z-[70] pointer-events-none opacity-0 transition-opacity duration-200">
+      <div id="toastMsg" class="px-4 py-2 rounded-full bg-midnight text-goldBright border border-gold/50 text-xs font-bold shadow-xl whitespace-nowrap">
+        已加入購物車
       </div>
     </div>
   </div>
 
   <script>
-    const WA_PHONE = "60143205376";
-
-    const PRODUCTS = [
+    /* ==========================================================================
+       1. 馬來西亞商品資料庫（完整收錄 Excel 全部 45 項商品，繁體中文 + 日幣售價 + 規格）
+       - 分類：餅乾零食 (Row 3-14)、糖果巧克力 (Row 16-31)、當地特色伴手禮 (Row 33-34)、
+               速食麵湯包 (Row 37-44)、咖啡飲品 (Row 46-53)
+       - 經典 標記：Row 4-5, 10-14, 20-24, 27-31, 51-52
+       - 人氣 標記：Row 3, 6-8, 11, 16-18, 25-26, 33-34, 40, 46-50
+       - 明星推薦獨立標記：Row 11 (Black Pink 推薦)、Row 16 (MAMAMOO 華莎推薦)
+       ========================================================================== */
+    const MSIA_PRODUCTS = [
       {
-        id: "gu-set-01",
-        category: "GU 穿搭",
-        badge: "整套立省 RM 10",
-        coverMain: "GU 穿搭套组",
-        coverSub: "上衣 + 阔腿裤",
-        coverBg: "linear-gradient(145deg, #1b2854, #090d1f)",
-        title: "GU 日系通勤穿搭整套（上衣+阔腿裤）",
-        yenHint: "约 4,980 yen",
-        priceRm: 164,
-        note: "上衣+裤子打包优惠价，上班族/宝妈好穿免搭",
-        options: ["S 码", "M 码", "L 码", "XL 码"]
+        id: "msia-01",
+        excelRow: 3,
+        category: "餅乾零食",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Julie's 茱蒂絲 花生夾心餅乾 便利裝 12入 336g",
+        price: 880,
+        note: "馬來西亞國民經典花生醬夾心餅乾，獨立小包裝方便分享",
+        specs: [],
+        coverIcon: "🥜",
+        coverBg: "from-[#4A2C18] to-[#1D120B]"
       },
       {
-        id: "gu-top-02",
-        category: "GU 穿搭",
-        badge: "人气单品",
-        coverMain: "GU 针织衫",
-        coverSub: "1,990 yen 一口价",
-        coverBg: "linear-gradient(145deg, #27376e, #0c1229)",
-        title: "GU 柔滑针织短袖单穿款",
-        yenHint: "约 1,990 yen",
-        priceRm: 70,
-        note: "清爽透气版型，单买或搭阔腿裤都百搭",
-        options: ["S 码", "M 码", "L 码", "XL 码"]
+        id: "msia-02",
+        excelRow: 4,
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Apollo 阿波羅 巧克力威化餅乾 18入",
+        price: 650,
+        note: "香脆多層威化夾心裹滿濃郁可可，童年懷舊人氣零嘴",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#3B1E14] to-[#140B08]"
       },
       {
-        id: "gacha-chiikawa-03",
-        category: "扭蛋 IP",
-        badge: "热门 IP",
-        coverMain: "Chiikawa 扭蛋",
-        coverSub: "300 yen · RM 12",
-        coverBg: "linear-gradient(145deg, #162147, #090d1f)",
-        title: "Chiikawa 造型扭蛋（代抽盲盒）",
-        yenHint: "300 yen 款",
-        priceRm: 12,
-        note: "现场抽拍短视频，售罄定金全额退还",
-        options: ["盲盒代抽 1 颗", "盲盒代抽 3 颗", "询问整套包圆"]
+        id: "msia-03",
+        excelRow: 5,
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Apollo 阿波羅 巧克力餅乾條 18入",
+        price: 650,
+        note: "酥脆餅乾棒沾滿香甜巧克力醬，獨立包裝不沾手",
+        specs: [],
+        coverIcon: "🥖",
+        coverBg: "from-[#472518] to-[#170C08]"
       },
       {
-        id: "gacha-sanrio-04",
-        category: "扭蛋 IP",
-        badge: "可爱吊饰",
-        coverMain: "三丽鸥扭蛋",
-        coverSub: "400 yen · RM 16",
-        coverBg: "linear-gradient(145deg, #321d47, #0d1024)",
-        title: "三丽鸥人气吊饰系列扭蛋",
-        yenHint: "400 yen 款",
-        priceRm: 16,
-        note: "小巧不占行李空间，适合挂包或钥匙扣",
-        options: ["盲盒代抽 1 颗", "盲盒代抽 2 颗", "询问整套包圆"]
+        id: "msia-04",
+        excelRow: 6,
+        category: "餅乾零食",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Munchy's Lexus 巧克力夾心餅乾 (11~18包)",
+        price: 1090,
+        note: "外層微鹹酥脆蘇打餅搭配絲滑夾心，多款經典與限定口味可選",
+        specs: ["方形巧克力", "方形花生", "方形起司", "方形海鹽香草", "方形海鹽巧克力", "圓形巧克力（裹滿）"],
+        coverIcon: "🍪",
+        coverBg: "from-[#1A284D] to-[#0B1120]"
       },
       {
-        id: "gacha-shinchan-05",
-        category: "扭蛋 IP",
-        badge: "收藏推荐",
-        coverMain: "小新 / 宝可梦",
-        coverSub: "500 yen · RM 20",
-        coverBg: "linear-gradient(145deg, #182b52, #090d1f)",
-        title: "蜡笔小新 / 宝可梦迷你摆件扭蛋",
-        yenHint: "500 yen 款",
-        priceRm: 20,
-        note: "桌面小摆件精选，一口价含代抽与基础运费",
-        options: ["蜡笔小新盲抽", "宝可梦盲抽", "两款各 1 颗"]
+        id: "msia-05",
+        excelRow: 7,
+        category: "餅乾零食",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Munchy's Oat Krunch 燕麥餅乾 (15~17入)",
+        price: 1090,
+        note: "富含全穀燕麥膳食纖維，香脆飽足、下午茶無負擔首選",
+        specs: ["黑巧克力", "堅果巧克力", "草莓黑加侖"],
+        coverIcon: "🌾",
+        coverBg: "from-[#3D2E1E] to-[#16110B]"
       },
       {
-        id: "costco-jp-06",
-        category: "Costco 精选",
-        badge: "日本限定",
-        coverMain: "Costco 限定",
-        coverSub: "轻便精选一口价",
-        coverBg: "linear-gradient(145deg, #121f3d, #070b1a)",
-        title: "日本 Costco 轻便限定精选好物",
-        yenHint: "限定精选",
-        priceRm: 88,
-        note: "挑轻便高价值限定款，28寸箱限额先锁先得",
-        options: ["常规限定款", "加购/拼单咨询"]
+        id: "msia-06",
+        excelRow: 8,
+        category: "餅乾零食",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Munchy's 奶油夾心餅乾 270g",
+        price: 690,
+        note: "金黃酥脆餅皮夾入香醇滑順奶油內餡，百吃不膩的經典款",
+        specs: [],
+        coverIcon: "🧈",
+        coverBg: "from-[#4E3919] to-[#1A1308]"
+      },
+      {
+        id: "msia-07",
+        excelRow: 10,
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Mamee 脆麵零食 (10+1入)",
+        price: 690,
+        note: "大馬人從小吃到大的捏碎乾吃點心麵，附調味粉搖一搖超涮嘴",
+        specs: ["BBQ 燒烤味", "香雞味"],
+        coverIcon: "🍜",
+        coverBg: "from-[#183354] to-[#0B1424]"
+      },
+      {
+        id: "msia-08",
+        excelRow: 11,
+        category: "餅乾零食",
+        badges: [
+          { text: "經典", type: "classic" },
+          { text: "人氣", type: "hot" },
+          { text: "Black Pink 推薦", type: "star" }
+        ],
+        title: "Oriental Super Ring 起司圈 60g",
+        price: 290,
+        note: "BLACKPINK Lisa & Rosé 演唱會後台欽點最愛！濃郁切達起司香氣",
+        specs: [],
+        coverIcon: "🧀",
+        coverBg: "from-[#5A320C] to-[#1F1104]"
+      },
+      {
+        id: "msia-09",
+        excelRow: 12,
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Popo 寶寶 魚肉豆餅 60g",
+        price: 290,
+        note: "經典嬰兒頭像包裝！鮮香魚肉與豌豆製成，酥脆鹹香超停不下來",
+        specs: ["原味", "香辣雞", "甜辣", "海苔"],
+        coverIcon: "🐟",
+        coverBg: "from-[#541C1C] to-[#1E0A0A]"
+      },
+      {
+        id: "msia-10",
+        excelRow: 13,
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "榴槤味啤啤菓 60g",
+        price: 290,
+        note: "打開包裝就能聞到濃郁南洋貓山王榴槤香氣，榴槤控必試零嘴",
+        specs: [],
+        coverIcon: "🍈",
+        coverBg: "from-[#3D4214] to-[#161807]"
+      },
+      {
+        id: "msia-11",
+        excelRow: 14,
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Cap Menara 香味魚餅 80g",
+        price: 290,
+        note: "吉隆坡雙峰塔經典標誌包裝，鮮味十足的傳統香脆魚餅",
+        specs: ["原味", "香辣"],
+        coverIcon: "🗼",
+        coverBg: "from-[#173647] to-[#09151C]"
+      },
+      {
+        id: "msia-12",
+        excelRow: 16,
+        category: "糖果巧克力",
+        badges: [
+          { text: "人氣", type: "hot" },
+          { text: "MAMAMOO 華莎推薦", type: "star" }
+        ],
+        title: "Beryl's 提拉米蘇巧克力 65g",
+        price: 750,
+        note: "MAMAMOO 華莎推薦！香脆整顆烘焙杏仁裹上提拉米蘇可可粉",
+        specs: ["杏仁黑巧克力", "杏仁牛奶巧克力", "杏仁白巧克力"],
+        coverIcon: "🤎",
+        coverBg: "from-[#3B2219] to-[#140B08]"
+      },
+      {
+        id: "msia-13",
+        excelRow: 17,
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Beryl's Pop 跳跳糖巧克力 50g",
+        price: 750,
+        note: "絲滑巧克力融入趣味跳跳糖顆粒，入口噼啪跳動的驚喜口感",
+        specs: ["清新薄荷苦甜巧克力", "可樂苦甜巧克力", "檸檬白巧克力"],
+        coverIcon: "✨",
+        coverBg: "from-[#281C45] to-[#0E0A1A]"
+      },
+      {
+        id: "msia-14",
+        excelRow: 18,
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Himalaya Salt 喜馬拉雅 海鹽糖果 15g",
+        price: 190,
+        note: "大馬超人氣運動與潤喉隨身糖，微鹹回甘、清涼生津",
+        specs: ["生薑檸檬", "勁涼薄荷", "沙梨果味"],
+        coverIcon: "🧂",
+        coverBg: "from-[#1A384A] to-[#0A151D]"
+      },
+      {
+        id: "msia-15",
+        excelRow: 19,
+        category: "糖果巧克力",
+        badges: [],
+        title: "Halls 荷氏 涼糖 12.5g",
+        price: 190,
+        note: "迷你隨身條裝清涼糖，多種果香與冰爽可樂口味提神醒腦",
+        specs: ["冰爽可樂", "青檸", "藍莓", "西瓜", "綜合口味"],
+        coverIcon: "❄️",
+        coverBg: "from-[#15354A] to-[#091620]"
+      },
+      {
+        id: "msia-16",
+        excelRow: 20,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Crispy 脆米巧克力 (25+3入)",
+        price: 990,
+        note: "大包裝分享號！香濃牛奶巧克力包覆卡滋酥脆米果，大人小孩都愛",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#4A1C1C] to-[#1B0A0A]"
+      },
+      {
+        id: "msia-17",
+        excelRow: 21,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Crispy 脆米巧克力 15入",
+        price: 650,
+        note: "輕巧 15 入裝，隨時享受濃郁巧克力與香脆米粒的雙重口感",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#421A1A] to-[#170909]"
+      },
+      {
+        id: "msia-18",
+        excelRow: 22,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Fruit Plus 水果軟糖 (120~150g)",
+        price: 450,
+        note: "大馬經典耐嚼水果牛奶軟糖，高達 16 種熱帶果香與特調口味可選",
+        specs: ["蘋果", "香蕉", "黑加侖", "葡萄", "番石榴", "荔枝", "芒果", "柳橙", "水蜜桃", "鳳梨", "草莓", "榴槤", "巧克力", "濃郁牛奶", "酷涼藍薄荷", "薄荷"],
+        coverIcon: "🍬",
+        coverBg: "from-[#4A1D38] to-[#1B0A14]"
+      },
+      {
+        id: "msia-19",
+        excelRow: 23,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Salt Plus 海鹽糖果 150g",
+        price: 550,
+        note: "家庭大袋裝海鹽檸檬軟糖，酸甜微鹹超解膩",
+        specs: [],
+        coverIcon: "🍋",
+        coverBg: "from-[#1F3D36] to-[#0B1714]"
+      },
+      {
+        id: "msia-20",
+        excelRow: 24,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Fizzy 氣泡可樂糖 / 檸檬糖 120g",
+        price: 390,
+        note: "入口帶著微刺激氣泡感的懷舊硬糖，彷彿在喝冰鎮汽水",
+        specs: ["可樂味", "檸檬味"],
+        coverIcon: "🥤",
+        coverBg: "from-[#3D2218] to-[#160C08]"
+      },
+      {
+        id: "msia-21",
+        excelRow: 25,
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Lot 100 Q彈水果軟糖 150g",
+        price: 550,
+        note: "添加真實果汁濃縮製成，口感軟糯 Q 彈、果香濃郁不黏牙",
+        specs: ["蘋果", "黑加侖", "草莓", "芒果", "綜合口味"],
+        coverIcon: "🥭",
+        coverBg: "from-[#4F2D12] to-[#1D1006]"
+      },
+      {
+        id: "msia-22",
+        excelRow: 26,
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Lot 100 Sour+ 酸甜Q彈軟糖 100g",
+        price: 450,
+        note: "外層裹上微酸糖粉，酸甜交織的 Q 彈果汁軟糖",
+        specs: ["黑加侖", "芒果", "柳橙", "蘋果", "草莓", "綜合口味"],
+        coverIcon: "🍓",
+        coverBg: "from-[#4B192B] to-[#1B0910]"
+      },
+      {
+        id: "msia-23",
+        excelRow: 27,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Dynamite 薄荷巧克力糖果",
+        price: 350,
+        note: "外層清涼薄荷糖衣、內藏濃郁巧克力夾心的雙重驚喜",
+        specs: ["巧克力流心 25入", "巧克力QQ 12入"],
+        coverIcon: "💣",
+        coverBg: "from-[#182B45] to-[#09111C]"
+      },
+      {
+        id: "msia-24",
+        excelRow: 28,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Pikin Plum Candy 金梅片 50g",
+        price: 250,
+        note: "酸甜開胃的傳統話梅片，生津止渴、追劇解饞必備",
+        specs: [],
+        coverIcon: "🍑",
+        coverBg: "from-[#47241A] to-[#190D09]"
+      },
+      {
+        id: "msia-25",
+        excelRow: 29,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "張明志 無花果經典零食 10g",
+        price: 150,
+        note: "馬來西亞華人童年經典小包裝無花果絲，酸甜耐嚼",
+        specs: [],
+        coverIcon: "🌿",
+        coverBg: "from-[#3B2A1A] to-[#16100A]"
+      },
+      {
+        id: "msia-26",
+        excelRow: 30,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "桃花牌 無花果經典零食 10g",
+        price: 150,
+        note: "古早味懷舊小零食，甘甜微酸、一口接一口的童年記憶",
+        specs: [],
+        coverIcon: "🌸",
+        coverBg: "from-[#4A202D] to-[#1B0C10]"
+      },
+      {
+        id: "msia-27",
+        excelRow: 31,
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "Ribena 利賓納 黑加侖軟糖 40g",
+        price: 290,
+        note: "富含維他命 C 的經典利賓納果汁軟糖，酸甜可口",
+        specs: ["綜合莓果", "水蜜桃"],
+        coverIcon: "🍇",
+        coverBg: "from-[#341847] to-[#12081A]"
+      },
+      {
+        id: "msia-28",
+        excelRow: 33,
+        category: "當地特色伴手禮",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "檳城大山腳 新潮香豆沙餅 32入",
+        price: 1350,
+        note: "檳城大山腳老字號手工名產！千層酥脆外皮搭配鹹甜綿密綠豆沙餡",
+        specs: [],
+        coverIcon: "🥮",
+        coverBg: "from-[#4F3116] to-[#1D1208]"
+      },
+      {
+        id: "msia-29",
+        excelRow: 34,
+        category: "當地特色伴手禮",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "余合 香餅 獨立包裝 290g",
+        price: 990,
+        note: "怡保著名特產香餅！芝麻酥皮包裹香濃麥芽糖心，獨立包裝保鮮好攜帶",
+        specs: [],
+        coverIcon: "🥠",
+        coverBg: "from-[#472F18] to-[#1A1108]"
+      },
+      {
+        id: "msia-30",
+        excelRow: 37,
+        category: "速食麵湯包",
+        badges: [],
+        title: "A1 肉骨茶湯包",
+        price: 790,
+        note: "精選十多種上等藥材秘製配方，在家輕鬆熬出正宗南洋濃郁肉骨茶",
+        specs: [],
+        coverIcon: "🍲",
+        coverBg: "from-[#3D2516] to-[#160D08]"
+      },
+      {
+        id: "msia-31",
+        excelRow: 38,
+        category: "速食麵湯包",
+        badges: [],
+        title: "A1 肉骨茶風味 快熟麵",
+        price: 1090,
+        note: "免熬湯也能享受道地藥材肉骨茶湯頭，麵條Q彈吸滿湯汁精華",
+        specs: [],
+        coverIcon: "🍜",
+        coverBg: "from-[#422616] to-[#180E08]"
+      },
+      {
+        id: "msia-32",
+        excelRow: 39,
+        category: "速食麵湯包",
+        badges: [],
+        title: "Ibumie 原味乾撈炒麵 (5+1入)",
+        price: 950,
+        note: "大馬人氣乾撈麵代表，香濃甜醬油與蔥油香氣完美融合",
+        specs: [],
+        coverIcon: "🍝",
+        coverBg: "from-[#4A2A14] to-[#1B0F07]"
+      },
+      {
+        id: "msia-33",
+        excelRow: 40,
+        category: "速食麵湯包",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "MyKuali 檳城白咖哩麵 4入",
+        price: 1250,
+        note: "榮獲全球十大美味泡麵冠軍！香濃椰漿搭配秘製辣蝦醬，湯頭濃醇厚實",
+        specs: [],
+        coverIcon: "🍛",
+        coverBg: "from-[#542214] to-[#1E0C07]"
+      },
+      {
+        id: "msia-34",
+        excelRow: 41,
+        category: "速食麵湯包",
+        badges: [],
+        title: "Maggi 咖哩快熟麵 (5+1入)",
+        price: 950,
+        note: "馬來西亞國民宵夜首選！12種香料慢炒而成的經典南洋咖哩湯頭",
+        specs: [],
+        coverIcon: "🍲",
+        coverBg: "from-[#522D12] to-[#1E1006]"
+      },
+      {
+        id: "msia-35",
+        excelRow: 42,
+        category: "速食麵湯包",
+        badges: [],
+        title: "Maggi 香雞快熟麵 5入",
+        price: 950,
+        note: "清甜醇厚雞湯風味，不辣順口、全家大小都喜歡的經典口味",
+        specs: [],
+        coverIcon: "🍗",
+        coverBg: "from-[#4A3815] to-[#1B1408]"
+      },
+      {
+        id: "msia-36",
+        excelRow: 43,
+        category: "速食麵湯包",
+        badges: [],
+        title: "Mamee Chef 主廚系列快熟麵 4入",
+        price: 1090,
+        note: "拉麵工藝製麵口感彈牙，三款濃郁南洋主廚級湯頭任選",
+        specs: ["濃郁東炎", "香辣香菇雞", "咖哩叻沙"],
+        coverIcon: "👨‍🍳",
+        coverBg: "from-[#4D1E18] to-[#1C0B09]"
+      },
+      {
+        id: "msia-37",
+        excelRow: 44,
+        category: "速食麵湯包",
+        badges: [],
+        title: "Mamee 素快熟麵 (5+1入)",
+        price: 950,
+        note: "清爽鮮甜蔬食湯頭，素食者也能安心享用的大馬經典快熟麵",
+        specs: [],
+        coverIcon: "🥬",
+        coverBg: "from-[#1D3D24] to-[#0B170D]"
+      },
+      {
+        id: "msia-38",
+        excelRow: 46,
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "ZUS Ngupi 大馬南洋咖啡系列 (13~18入)",
+        price: 1250,
+        note: "大馬超火精品連鎖 ZUS Coffee 推出的道地南洋咖啡系列，多款風味可選",
+        specs: ["白咖啡", "白咖啡 (無糖)", "虎咬獅", "鴛鴦", "咖啡烏"],
+        coverIcon: "☕",
+        coverBg: "from-[#152447] to-[#090F1E]"
+      },
+      {
+        id: "msia-39",
+        excelRow: 47,
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "ZUS CEO 濃郁巧克力飲品 (13入)",
+        price: 1250,
+        note: "嚴選高純度可可粉調製，口感絲滑醇厚、冷熱沖泡皆宜",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#361E16] to-[#140B08]"
+      },
+      {
+        id: "msia-40",
+        excelRow: 48,
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "ZUS COFFEE Signature Mixes 特調咖啡 (5入)",
+        price: 990,
+        note: "把 ZUS 門市招牌特調帶回家！六款咖啡館人氣風味自由挑選",
+        specs: ["Caffe Latte", "Signature Caffe Latte", "Mocha Latte", "Dolce Latte", "Signature Caramel Latte", "Cinnamon Latte"],
+        coverIcon: "🧋",
+        coverBg: "from-[#1B2B4F] to-[#0B1120]"
+      },
+      {
+        id: "msia-41",
+        excelRow: 49,
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "亞發 特濃白咖啡 15入",
+        price: 1590,
+        note: "低溫烘焙阿拉比卡與羅布斯塔豆，焦香濃郁、奶香綿密不酸澀",
+        specs: [],
+        coverIcon: "☕",
+        coverBg: "from-[#4A2C16] to-[#1B1008]"
+      },
+      {
+        id: "msia-42",
+        excelRow: 50,
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "亞發 順滑白咖啡 15入",
+        price: 1350,
+        note: "口感柔和絲滑、咖啡與奶香黃金比例平衡，日常早晨最佳良伴",
+        specs: [],
+        coverIcon: "🥛",
+        coverBg: "from-[#45311D] to-[#19120A]"
+      },
+      {
+        id: "msia-43",
+        excelRow: 51,
+        category: "咖啡飲品",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "檳城火車牌 咖啡烏 2in1 (含糖) 25入",
+        price: 1590,
+        note: "檳城百年老字號傳統 Kopi-O！濾袋沖泡散發迷人炭焙南洋黑咖啡香",
+        specs: [],
+        coverIcon: "🚂",
+        coverBg: "from-[#382315] to-[#140D08]"
+      },
+      {
+        id: "msia-44",
+        excelRow: 52,
+        category: "咖啡飲品",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "檳城火車牌 咖啡烏 (無糖) 20入",
+        price: 1090,
+        note: "純粹無糖傳統南洋黑咖啡濾袋，香醇回甘、無負擔品味地道古早味",
+        specs: [],
+        coverIcon: "🖤",
+        coverBg: "from-[#291C14] to-[#0F0A07]"
+      },
+      {
+        id: "msia-45",
+        excelRow: 53,
+        category: "咖啡飲品",
+        badges: [],
+        title: "BOH 金馬倫 拉茶系列",
+        price: 1350,
+        note: "馬來西亞金馬倫高原第一紅茶品牌！茶香濃厚、奶泡綿密的正宗 Teh Tarik",
+        specs: ["少糖", "入薑", "抹茶拿鐵"],
+        coverIcon: "🫖",
+        coverBg: "from-[#1B3B2B] to-[#0A1710]"
       }
     ];
 
-    let currentCategory = "全部";
-    let currentCols = 2;
-    let activeProduct = null;
-    let selectedOption = "";
-    let cart = [];
+    /* ==========================================================================
+       2. 日本代購商品資料庫（供頂部開關切換至「日本代購商品館」時顯示）
+       ========================================================================== */
+    const JAPAN_PRODUCTS = [
+      {
+        id: "jp-01",
+        category: "GU 穿搭",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "GU 日系通勤穿搭整套（上衣＋闊腿褲）",
+        price: 164,
+        note: "上衣＋褲子打包優惠價，上班族與媽咪好穿免煩惱搭配",
+        specs: ["S 碼", "M 碼", "L 碼", "XL 碼"],
+        coverIcon: "🧥",
+        coverBg: "from-[#1B2854] to-[#0B1120]"
+      },
+      {
+        id: "jp-02",
+        category: "GU 穿搭",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "GU 柔滑針織短袖單穿款",
+        price: 70,
+        note: "清爽透氣版型，單買或搭配闊腿褲都百搭",
+        specs: ["S 碼", "M 碼", "L 碼", "XL 碼"],
+        coverIcon: "👕",
+        coverBg: "from-[#27376E] to-[#0D1326]"
+      },
+      {
+        id: "jp-03",
+        category: "扭蛋 IP",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "Chiikawa 造型扭蛋（代抽盲盒）",
+        price: 12,
+        note: "現場代抽拍攝短影片，開盒驚喜感滿滿",
+        specs: ["盲盒代抽 1 顆", "盲盒代抽 3 顆", "詢問整套包圓"],
+        coverIcon: "🐱",
+        coverBg: "from-[#162147] to-[#0B1120]"
+      },
+      {
+        id: "jp-04",
+        category: "扭蛋 IP",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "三麗鷗人氣吊飾系列扭蛋",
+        price: 16,
+        note: "小巧精緻不佔空間，適合掛包包或鑰匙圈",
+        specs: ["盲盒代抽 1 顆", "盲盒代抽 2 顆", "詢問整套包圓"],
+        coverIcon: "🎀",
+        coverBg: "from-[#321D47] to-[#0D1024]"
+      },
+      {
+        id: "jp-05",
+        category: "扭蛋 IP",
+        badges: [],
+        title: "蠟筆小新 / 寶可夢迷你擺件扭蛋",
+        price: 20,
+        note: "桌面療癒小擺件精選，收藏送禮兩相宜",
+        specs: ["蠟筆小新盲抽", "寶可夢盲抽", "兩款各 1 顆"],
+        coverIcon: "⚡",
+        coverBg: "from-[#182B52] to-[#0B1120]"
+      },
+      {
+        id: "jp-06",
+        category: "Costco 精選",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "日本 Costco 輕便限定精選好物",
+        price: 88,
+        note: "嚴選輕便高價值日本限定款，數量有限先選先得",
+        specs: ["常規限定款", "加購／拼單諮詢"],
+        coverIcon: "🛍️",
+        coverBg: "from-[#121F3D] to-[#080D1A]"
+      }
+    ];
 
-    const productGrid = document.getElementById("productGrid");
-    const itemCountText = document.getElementById("itemCountText");
+    /* ==========================================================================
+       3. 狀態管理與圖片上傳儲存（支援每款商品最多 10 張自訂圖片）
+       ========================================================================== */
+    const STORAGE_KEY_IMAGES = "neko_haul_custom_images_v1";
+    let customImagesMap = {}; // { [productId]: [img0, img1, ..., img9] } (長度固定 10，空位為 null)
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY_IMAGES);
+      if (saved) customImagesMap = JSON.parse(saved);
+    } catch (e) {
+      customImagesMap = {};
+    }
+
+    function saveImagesMap() {
+      try {
+        localStorage.setItem(STORAGE_KEY_IMAGES, JSON.stringify(customImagesMap));
+      } catch (e) {
+        showToast("⚠️ 圖片檔案較大，已暫存於本次瀏覽階段");
+      }
+    }
+
+    function getProductSlots(prodId) {
+      if (!Array.isArray(customImagesMap[prodId])) {
+        customImagesMap[prodId] = new Array(10).fill(null);
+      }
+      while (customImagesMap[prodId].length < 10) {
+        customImagesMap[prodId].push(null);
+      }
+      return customImagesMap[prodId].slice(0, 10);
+    }
+
+    function getUploadedImages(prodId) {
+      return getProductSlots(prodId).filter(Boolean);
+    }
+
+    let storeMode = "msia"; // "msia" | "japan"
+    let currentCategory = "全部商品";
+    let searchQuery = "";
+    let currentCols = 2;
+    let cart = []; // { key, mode, id, title, spec, price, qty }
+
+    // 詳情彈窗狀態
+    let activeProduct = null;
+    let selectedSpec = "";
+    let detailQty = 1;
+    let activeSlideIdx = 0;
+
+    // 圖片管理彈窗狀態
+    let editingImgProdId = MSIA_PRODUCTS[0].id;
+
+    function getCatalog() {
+      return storeMode === "msia" ? MSIA_PRODUCTS : JAPAN_PRODUCTS;
+    }
+
+    function formatPrice(amount) {
+      if (storeMode === "msia") {
+        return `¥ ${Number(amount).toLocaleString("en-US")}`;
+      }
+      return `RM ${Number(amount).toLocaleString("en-US")}`;
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[<>&'"]/g, c => ({
+        "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&#39;", '"': "&quot;"
+      }[c]));
+    }
+
+    // 遇到「，」或「！」後換行，「、」不換行
+    function formatNoteHtml(noteStr) {
+      if (!noteStr) return "";
+      const lines = String(noteStr)
+        .split(/([，！])/)
+        .reduce((acc, part) => {
+          if (!part) return acc;
+          if (part === "，" || part === "！") {
+            if (acc.length > 0) {
+              acc[acc.length - 1] += part;
+            }
+            acc.push("");
+          } else {
+            if (acc.length === 0) acc.push("");
+            acc[acc.length - 1] += part;
+          }
+          return acc;
+        }, [])
+        .map(line => line.trim())
+        .filter(Boolean);
+
+      return lines.map(line => escapeHtml(line)).join("<br>");
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      const msgEl = document.getElementById("toastMsg");
+      if (!box || !msgEl) return;
+      msgEl.textContent = msg;
+      box.classList.remove("opacity-0");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        box.classList.add("opacity-0");
+      }, 2200);
+    }
+
+    function hasHotBadge(item) {
+      return Array.isArray(item.badges) && item.badges.some(b => b.type === "hot");
+    }
+
+    function hasClassicBadge(item) {
+      return Array.isArray(item.badges) && item.badges.some(b => b.type === "classic");
+    }
+
+    function renderBadgeChip(badge, compact = false) {
+      const sizeCls = compact ? "text-[8.5px] px-1.5 py-0.5" : "text-[10px] px-2 py-0.5";
+      const cls = badge.type === "hot"
+        ? `rec-badge text-white ${sizeCls} font-black rounded-full tracking-wide leading-none`
+        : badge.type === "star"
+          ? `star-badge ${sizeCls} font-black rounded-full tracking-wide leading-none`
+          : `classic-badge ${sizeCls} font-extrabold rounded-full tracking-wide leading-none`;
+      return `<span class="${cls}">${escapeHtml(badge.text)}</span>`;
+    }
+
+    /* ==========================================================================
+       4. 渲染分類列與商品卡片網格
+       ========================================================================== */
+    function renderCategoryTabs() {
+      const catalog = getCatalog();
+      const baseCats = ["全部商品", "人氣", "經典", ...new Set(catalog.map(p => p.category))];
+      const cats = [...new Set(baseCats)];
+      if (!cats.includes(currentCategory)) currentCategory = "全部商品";
+
+      const tabsEl = document.getElementById("categoryTabs");
+      tabsEl.innerHTML = cats.map(cat => {
+        const active = cat === currentCategory;
+        const isHotTab = cat === "人氣";
+        const isClassicTab = cat === "經典";
+        return `
+          <button
+            type="button"
+            data-cat="${escapeHtml(cat)}"
+            class="cat-btn shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition ${
+              active
+                ? "bg-midnight text-goldBright shadow-sm"
+                : isHotTab
+                  ? "bg-[#FCECE9] text-crimson border border-crimson/25 hover:bg-[#F9DDD8]"
+                  : isClassicTab
+                    ? "bg-[#F4ECDC] text-goldDark border border-goldDark/30 hover:bg-[#ECE0C8]"
+                    : "bg-[#F3ECE0] text-muted border border-[#E2D6C1] hover:text-ink"
+            }"
+          >
+            ${escapeHtml(cat)}
+          </button>
+        `;
+      }).join("");
+
+      tabsEl.querySelectorAll(".cat-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentCategory = btn.dataset.cat;
+          renderCategoryTabs();
+          renderProducts();
+        });
+      });
+    }
 
     function renderProducts() {
-      const list = currentCategory === "全部"
-        ? PRODUCTS
-        : PRODUCTS.filter(p => p.category === currentCategory);
+      const catalog = getCatalog();
+      const q = searchQuery.trim().toLowerCase();
 
-      itemCountText.textContent = `共 ${list.length} 款精选商品`;
-      productGrid.className = currentCols === 3 ? "product-grid cols-3" : "product-grid";
+      const filtered = catalog.filter(item => {
+        const matchCat =
+          currentCategory === "全部商品" ? true :
+          currentCategory === "人氣" ? hasHotBadge(item) :
+          currentCategory === "經典" ? hasClassicBadge(item) :
+          item.category === currentCategory;
 
-      productGrid.innerHTML = list.map(item => `
-        <article class="card">
-          <div class="cover-box" style="background:${item.coverBg};" onclick="openDetail('${item.id}')">
-            <span class="cover-tag">${item.badge}</span>
-            <div class="cover-main">${item.coverMain}</div>
-            <div class="cover-sub">${item.coverSub}</div>
-          </div>
-          <div class="card-body">
-            <div>
-              <h3 class="prod-title" onclick="openDetail('${item.id}')">${item.title}</h3>
-              <p class="prod-note">${item.note}</p>
-            </div>
-            <div>
-              <div class="price-row">
-                <span class="price-rm">RM ${item.priceRm}</span>
-                <span class="price-yen">${item.yenHint}</span>
+        if (!matchCat) return false;
+        if (!q) return true;
+
+        const inTitle = item.title.toLowerCase().includes(q);
+        const inCat = item.category.toLowerCase().includes(q);
+        const inNote = (item.note || "").toLowerCase().includes(q);
+        const inSpecs = (item.specs || []).some(s => s.toLowerCase().includes(q));
+        const inBadges = (item.badges || []).some(b => b.text.toLowerCase().includes(q));
+        return inTitle || inCat || inNote || inSpecs || inBadges;
+      });
+
+      document.getElementById("itemCountText").textContent = `共 ${filtered.length} 款精選商品`;
+
+      const gridEl = document.getElementById("productGrid");
+      const emptyEl = document.getElementById("emptyState");
+
+      if (filtered.length === 0) {
+        gridEl.innerHTML = "";
+        emptyEl.classList.remove("hidden");
+        return;
+      }
+      emptyEl.classList.add("hidden");
+
+      gridEl.className = currentCols === 3
+        ? "grid grid-cols-3 gap-2"
+        : "grid grid-cols-2 gap-2.5";
+
+      gridEl.innerHTML = filtered.map(item => {
+        const uploaded = getUploadedImages(item.id);
+        const hasRealImg = uploaded.length > 0;
+        const hasSpecs = item.specs && item.specs.length > 0;
+        const isCol3 = currentCols === 3;
+
+        return `
+          <article class="bg-cream rounded-2xl overflow-hidden border border-goldDark/15 shadow-sm flex flex-col justify-between transition active:scale-[0.99]">
+            <!-- 封面圖區 -->
+            <div onclick="openDetail('${item.id}')" class="relative aspect-square overflow-hidden cursor-pointer bg-gradient-to-br ${item.coverBg} flex flex-col items-center justify-center p-2.5 text-center">
+              ${hasRealImg
+                ? `<img src="${uploaded[0]}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover absolute inset-0" loading="lazy" />`
+                : `
+                  <div class="w-12 h-12 ${isCol3 ? "w-9 h-9 text-xl" : "text-3xl"} rounded-2xl bg-white/10 border border-gold/30 flex items-center justify-center mb-1.5 shadow-inner">
+                    ${item.coverIcon}
+                  </div>
+                  <div class="${isCol3 ? "text-[10px]" : "text-xs"} font-extrabold text-goldBright line-clamp-2 leading-tight px-1">
+                    ${escapeHtml(item.title.split(" ")[0])}
+                  </div>
+                  ${!isCol3 ? `<div class="text-[10px] text-[#FAF6EE]/75 mt-0.5">${escapeHtml(item.category)}</div>` : ""}
+                `
+              }
+
+              <!-- 左上角多重標記區（支援同時顯示 [經典] 與 【人氣 · BLACKPINK 推薦】） -->
+              <div class="absolute top-2 left-2 z-10 flex flex-col items-start gap-1 max-w-[85%]">
+                ${(item.badges && item.badges.length > 0)
+                  ? item.badges.map(b => renderBadgeChip(b, isCol3)).join("")
+                  : `<span class="bg-midnight/80 text-goldBright ${isCol3 ? "text-[8.5px] px-1.5 py-0.5" : "text-[10px] px-2 py-0.5"} font-bold rounded-full border border-gold/30">${escapeHtml(item.category)}</span>`
+                }
               </div>
-              <div class="card-actions">
-                <button class="btn-book" type="button" onclick="quickBook('${item.id}')">WhatsApp 预订</button>
-                <button class="btn-add" type="button" onclick="addToCart('${item.id}', '${item.options[0]}')">＋ 清单</button>
+
+              <!-- 右下角多圖數量標示 -->
+              ${uploaded.length > 1 ? `
+                <span class="absolute bottom-1.5 right-1.5 z-10 bg-midnight/85 text-goldBright text-[9.5px] font-bold px-1.5 py-0.5 rounded-md border border-gold/30">
+                  📷 ${uploaded.length}張
+                </span>
+              ` : ""}
+            </div>
+
+            <!-- 卡片資訊與操作按鈕 -->
+            <div class="${isCol3 ? "p-2" : "p-2.5"} flex-1 flex flex-col justify-between">
+              <div>
+                <h3 onclick="openDetail('${item.id}')" class="cursor-pointer font-extrabold text-ink ${isCol3 ? "text-[11px] leading-snug line-clamp-2" : "text-[13px] leading-snug line-clamp-2"}">
+                  ${escapeHtml(item.title)}
+                </h3>
+                ${item.note ? `
+                  <p onclick="openDetail('${item.id}')" class="cursor-pointer ${isCol3 ? "mt-1 text-[9.5px] leading-snug line-clamp-3" : "mt-1 text-[11px] leading-relaxed line-clamp-3"} text-muted">
+                    ${formatNoteHtml(item.note)}
+                  </p>
+                ` : ""}
+              </div>
+
+              <div class="${isCol3 ? "mt-2" : "mt-2.5"}">
+                <!-- 僅顯示主價格（已移除次要參考匯率） -->
+                <div class="flex items-baseline justify-between mb-2">
+                  <span class="${isCol3 ? "text-xs" : "text-base"} font-black text-crimson tracking-tight">
+                    ${formatPrice(item.price)}
+                  </span>
+                </div>
+
+                <!-- 單一主按鈕：「+ 購物車」（已移除 WhatsApp 預訂按鈕） -->
+                <button
+                  type="button"
+                  onclick="handleCardAddClick('${item.id}')"
+                  class="w-full ${isCol3 ? "py-1.5 text-[10px]" : "py-2 text-xs"} rounded-xl bg-gradient-to-r from-[#FFF8E8] to-[#F6E9CC] hover:from-[#F7E8C4] hover:to-[#EED9AA] border border-goldDark/35 text-goldDark font-extrabold shadow-xs active:scale-95 transition"
+                >
+                  ${hasSpecs ? "選擇規格 ＋" : "＋ 購物車"}
+                </button>
               </div>
             </div>
-          </div>
-        </article>
-      `).join("");
+          </article>
+        `;
+      }).join("");
     }
 
+    function handleCardAddClick(id) {
+      const prod = getCatalog().find(p => p.id === id);
+      if (!prod) return;
+      if (prod.specs && prod.specs.length > 0) {
+        openDetail(id);
+      } else {
+        addToCart(id, "", 1);
+      }
+    }
+
+    /* ==========================================================================
+       5. 商品詳情彈窗與多圖輪播
+       ========================================================================== */
     function openDetail(id) {
-      const prod = PRODUCTS.find(p => p.id === id);
+      const prod = getCatalog().find(p => p.id === id);
       if (!prod) return;
+
       activeProduct = prod;
-      selectedOption = prod.options[0] || "默认";
-      document.getElementById("detailTitle").textContent = `${prod.title}（RM ${prod.priceRm}）`;
-      document.getElementById("detailDesc").textContent = `${prod.note} · 参考：${prod.yenHint}`;
+      detailQty = 1;
+      activeSlideIdx = 0;
+      selectedSpec = (prod.specs && prod.specs.length > 0) ? prod.specs[0] : "";
+
+      document.getElementById("detailQtyVal").textContent = "1";
+      document.getElementById("detailTitle").textContent = prod.title;
+      document.getElementById("detailPrice").textContent = formatPrice(prod.price);
+      document.getElementById("detailNote").innerHTML = formatNoteHtml(prod.note || "");
+
+      const badgesRow = document.getElementById("detailBadgesRow");
+      const badgeHtml = (prod.badges || []).map(b => renderBadgeChip(b, false)).join("");
+      badgesRow.innerHTML = `
+        <span id="detailCatBadge" class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-midnight text-goldBright">${escapeHtml(prod.category)}</span>
+        ${badgeHtml}
+      `;
+
+      // 渲染「選擇規格」區塊
+      const optGroup = document.getElementById("optionGroup");
       const chipsEl = document.getElementById("optionChips");
-      chipsEl.innerHTML = prod.options.map((opt, idx) => `
-        <button type="button" class="opt-chip ${idx === 0 ? "selected" : ""}" onclick="selectOpt(this, '${opt}')">${opt}</button>
-      `).join("");
-      document.getElementById("detailModal").classList.add("open");
+      const specTextEl = document.getElementById("selectedSpecText");
+
+      if (prod.specs && prod.specs.length > 0) {
+        optGroup.classList.remove("hidden");
+        specTextEl.textContent = `已選：${selectedSpec}`;
+        chipsEl.innerHTML = prod.specs.map((spec, idx) => `
+          <button
+            type="button"
+            onclick="selectSpec(this, '${escapeHtml(spec)}')"
+            class="opt-chip px-3 py-1.5 rounded-xl text-xs font-bold border transition ${
+              idx === 0
+                ? "bg-midnight text-goldBright border-midnight shadow-sm"
+                : "bg-[#F4EDE0] text-ink border-[#DFD2BC] hover:border-midnight/40"
+            }"
+          >
+            ${escapeHtml(spec)}
+          </button>
+        `).join("");
+      } else {
+        optGroup.classList.add("hidden");
+      }
+
+      renderDetailGallery();
+      const modal = document.getElementById("detailModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
     }
 
-    function selectOpt(el, opt) {
-      selectedOption = opt;
-      document.querySelectorAll("#optionChips .opt-chip").forEach(b => b.classList.remove("selected"));
-      el.classList.add("selected");
+    function selectSpec(btn, spec) {
+      selectedSpec = spec;
+      document.getElementById("selectedSpecText").textContent = `已選：${spec}`;
+      document.querySelectorAll("#optionChips .opt-chip").forEach(el => {
+        el.className = "opt-chip px-3 py-1.5 rounded-xl text-xs font-bold border transition bg-[#F4EDE0] text-ink border-[#DFD2BC] hover:border-midnight/40";
+      });
+      btn.className = "opt-chip px-3 py-1.5 rounded-xl text-xs font-bold border transition bg-midnight text-goldBright border-midnight shadow-sm";
     }
 
-    function buildWaUrl(text) {
-      return `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(text)}`;
+    function renderDetailGallery() {
+      if (!activeProduct) return;
+      const uploaded = getUploadedImages(activeProduct.id);
+      const countEl = document.getElementById("detailPhotoCount");
+      countEl.textContent = uploaded.length;
+
+      const trackEl = document.getElementById("detailCarouselTrack");
+      const dotsEl = document.getElementById("carouselDots");
+      const prevBtn = document.getElementById("prevImgBtn");
+      const nextBtn = document.getElementById("nextImgBtn");
+      const stripEl = document.getElementById("detailThumbStrip");
+
+      if (uploaded.length === 0) {
+        trackEl.innerHTML = `
+          <div class="w-full h-full bg-gradient-to-br ${activeProduct.coverBg} flex flex-col items-center justify-center p-6 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-white/10 border border-gold/40 flex items-center justify-center text-4xl mb-2 shadow-lg">
+              ${activeProduct.coverIcon}
+            </div>
+            <div class="text-sm font-black text-goldBright">${escapeHtml(activeProduct.title)}</div>
+            <div class="text-[11px] text-[#FAF6EE]/70 mt-1">可點擊右上角「📷 管理商品圖」上傳最多 10 張實拍圖</div>
+          </div>
+        `;
+        dotsEl.classList.add("hidden");
+        prevBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+        stripEl.classList.add("hidden");
+        return;
+      }
+
+      if (activeSlideIdx >= uploaded.length) activeSlideIdx = 0;
+      trackEl.innerHTML = `<img src="${uploaded[activeSlideIdx]}" alt="${escapeHtml(activeProduct.title)}" class="w-full h-full object-contain bg-[#121829]" />`;
+
+      if (uploaded.length > 1) {
+        dotsEl.classList.remove("hidden");
+        prevBtn.classList.remove("hidden");
+        nextBtn.classList.remove("hidden");
+        stripEl.classList.remove("hidden");
+
+        dotsEl.innerHTML = uploaded.map((_, i) => `
+          <span class="w-1.5 h-1.5 rounded-full ${i === activeSlideIdx ? "bg-goldBright w-3" : "bg-white/40"} transition-all"></span>
+        `).join("");
+
+        stripEl.innerHTML = uploaded.map((src, i) => `
+          <button type="button" onclick="jumpToSlide(${i})" class="w-12 h-12 rounded-lg overflow-hidden shrink-0 border-2 ${i === activeSlideIdx ? "border-midnight" : "border-transparent opacity-65"}">
+            <img src="${src}" class="w-full h-full object-cover" />
+          </button>
+        `).join("");
+      } else {
+        dotsEl.classList.add("hidden");
+        prevBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+        stripEl.classList.add("hidden");
+      }
     }
 
-    function quickBook(id) {
-      const prod = PRODUCTS.find(p => p.id === id);
+    function jumpToSlide(idx) {
+      activeSlideIdx = idx;
+      renderDetailGallery();
+    }
+
+    /* ==========================================================================
+       6. 購物車邏輯（按館別獨立統計，支援複製購物車清單）
+       ========================================================================== */
+    function addToCart(prodId, spec, qty) {
+      const prod = getCatalog().find(p => p.id === prodId);
       if (!prod) return;
-      const msg = `你好 Neko Haul (@neko.haul)！我想预订：\n• 商品：${prod.title}\n• 规格：${prod.options[0]}\n• 一口价：RM ${prod.priceRm}（50% 定金约 RM ${(prod.priceRm * 0.5).toFixed(2)}）\n请问如何付定金锁单？`;
-      window.open(buildWaUrl(msg), "_blank");
-    }
 
-    function addToCart(id, optionName) {
-      const prod = PRODUCTS.find(p => p.id === id);
-      if (!prod) return;
-      const key = `${prod.id}__${optionName}`;
+      const key = `${storeMode}__${prod.id}__${spec}`;
       const existing = cart.find(c => c.key === key);
       if (existing) {
-        existing.qty += 1;
+        existing.qty += qty;
       } else {
-        cart.push({ key, id: prod.id, title: prod.title, option: optionName, priceRm: prod.priceRm, qty: 1 });
+        cart.push({
+          key,
+          mode: storeMode,
+          id: prod.id,
+          title: prod.title,
+          spec,
+          price: prod.price,
+          qty
+        });
       }
       updateCartUI();
+      showToast(`已加入購物車：${prod.title.slice(0, 14)}...`);
     }
 
-    function changeQty(key, delta) {
+    function getActiveModeCart() {
+      return cart.filter(c => c.mode === storeMode);
+    }
+
+    function changeCartQty(key, delta) {
       const idx = cart.findIndex(c => c.key === key);
       if (idx === -1) return;
       cart[idx].qty += delta;
       if (cart[idx].qty <= 0) cart.splice(idx, 1);
       updateCartUI();
-      renderCartModalItems();
+      renderCartDrawer();
     }
 
     function updateCartUI() {
-      const totalQty = cart.reduce((sum, c) => sum + c.qty, 0);
-      const totalRm = cart.reduce((sum, c) => sum + c.priceRm * c.qty, 0);
-      const depositRm = totalRm * 0.5;
+      const activeItems = getActiveModeCart();
+      const totalQty = activeItems.reduce((sum, c) => sum + c.qty, 0);
+      const totalAmount = activeItems.reduce((sum, c) => sum + c.price * c.qty, 0);
+
       document.getElementById("cartCount").textContent = totalQty;
-      document.getElementById("cartTotal").textContent = `RM ${totalRm}`;
-      document.getElementById("cartDeposit").textContent = `RM ${depositRm.toFixed(2)}`;
-      document.getElementById("modalTotal").textContent = `RM ${totalRm}`;
-      document.getElementById("modalDeposit").textContent = `RM ${depositRm.toFixed(2)}`;
+      document.getElementById("cartBadgePill").textContent = totalQty;
+      document.getElementById("cartTotal").textContent = formatPrice(totalAmount);
+      document.getElementById("modalTotalQty").textContent = totalQty;
+      document.getElementById("modalTotal").textContent = formatPrice(totalAmount);
+      document.getElementById("cartSubHint").textContent =
+        totalQty > 0 ? `點擊右側「購物車」查看明細或複製清單` : `點擊「＋ 購物車」即可加入統計`;
     }
 
-    function renderCartModalItems() {
-      const el = document.getElementById("cartItemsList");
-      if (cart.length === 0) {
-        el.innerHTML = `<p style="color:#5f667e;font-size:13px;">清单还是空的，先点商品卡片的「＋ 清单」加入吧！</p>`;
+    function renderCartDrawer() {
+      const activeItems = getActiveModeCart();
+      const listEl = document.getElementById("cartItemsList");
+      document.getElementById("cartModeLabel").textContent =
+        storeMode === "msia"
+          ? "目前顯示：馬來西亞商品館（日幣計價）"
+          : "目前顯示：日本代購商品館（馬幣計價）";
+
+      if (activeItems.length === 0) {
+        listEl.innerHTML = `
+          <div class="py-10 text-center">
+            <div class="text-3xl mb-2">🛒</div>
+            <p class="text-xs font-bold text-muted">購物車目前是空的，快去挑選喜歡的商品吧！</p>
+          </div>
+        `;
         return;
       }
-      el.innerHTML = cart.map(item => `
-        <div class="cart-item">
-          <div>
-            <div style="font-weight:700;">${item.title}</div>
-            <div style="font-size:11px;color:#5f667e;">${item.option} · RM ${item.priceRm}/件</div>
+
+      listEl.innerHTML = activeItems.map(item => `
+        <div class="py-3 flex items-center justify-between gap-2">
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-extrabold text-ink truncate">${escapeHtml(item.title)}</div>
+            <div class="text-[11px] text-muted mt-0.5">
+              ${item.spec ? `<span class="text-goldDark font-bold">規格：${escapeHtml(item.spec)}</span> · ` : ""}
+              單價 ${formatPrice(item.price)}
+            </div>
           </div>
-          <div class="qty-ctrl">
-            <button class="qty-btn" type="button" onclick="changeQty('${item.key}', -1)">-</button>
-            <span>${item.qty}</span>
-            <button class="qty-btn" type="button" onclick="changeQty('${item.key}', 1)">+</button>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-xs font-black text-crimson mr-1">${formatPrice(item.price * item.qty)}</span>
+            <div class="inline-flex items-center gap-1.5 bg-[#EFE6D5] px-1.5 py-1 rounded-lg">
+              <button type="button" onclick="changeCartQty('${item.key}', -1)" class="w-6 h-6 rounded bg-white text-ink font-bold text-xs shadow-xs">−</button>
+              <span class="text-xs font-extrabold w-4 text-center">${item.qty}</span>
+              <button type="button" onclick="changeCartQty('${item.key}', 1)" class="w-6 h-6 rounded bg-white text-ink font-bold text-xs shadow-xs">＋</button>
+            </div>
           </div>
         </div>
       `).join("");
     }
 
-    function sendCartToWa() {
-      if (cart.length === 0) {
-        window.open(buildWaUrl("你好 Neko Haul (@neko.haul)！我想咨询日本代购商品与锁单方式～"), "_blank");
+    function copyCartToClipboard() {
+      const activeItems = getActiveModeCart();
+      if (activeItems.length === 0) {
+        showToast("購物車目前沒有商品喔！");
         return;
       }
-      const lines = cart.map((c, i) => `${i + 1}. ${c.title}（${c.option}）x${c.qty} = RM ${c.priceRm * c.qty}`);
-      const totalRm = cart.reduce((s, c) => s + c.priceRm * c.qty, 0);
-      const depositRm = (totalRm * 0.5).toFixed(2);
-      const msg = `你好 Neko Haul (@neko.haul)！这是我的代购清单：\n${lines.join("\n")}\n\n• 合计一口价：RM ${totalRm}\n• 预估 50% 定金：RM ${depositRm}\n麻烦协助确认并发送付款资料锁单！`;
-      window.open(buildWaUrl(msg), "_blank");
+      const modeName = storeMode === "msia" ? "Neko Haul 馬來西亞精選館" : "Neko Haul 日本代購館";
+      const lines = activeItems.map((item, idx) => {
+        const specPart = item.spec ? `【${item.spec}】` : "";
+        return `${idx + 1}. ${item.title} ${specPart} × ${item.qty} = ${formatPrice(item.price * item.qty)}`;
+      });
+      const totalQty = activeItems.reduce((s, c) => s + c.qty, 0);
+      const totalAmount = activeItems.reduce((s, c) => s + c.price * c.qty, 0);
+      const text = `【${modeName} 購物車清單】\n${lines.join("\n")}\n\n共 ${totalQty} 件商品 · 合計：${formatPrice(totalAmount)}`;
+
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        showToast("✅ 已複製購物車清單！");
+      } catch (err) {
+        showToast("複製失敗，請手動選取複製");
+      }
+      document.body.removeChild(textarea);
     }
 
-    document.querySelectorAll(".cat-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".cat-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        currentCategory = btn.dataset.cat;
+    /* ==========================================================================
+       7. 商品圖片上傳管理中心（每款支援 10 個獨立圖片上傳槽位）
+       ========================================================================== */
+    function openImageManager(preselectProdId) {
+      const allProds = [...MSIA_PRODUCTS, ...JAPAN_PRODUCTS];
+      const selectEl = document.getElementById("imgTargetProductSelect");
+
+      selectEl.innerHTML = allProds.map((p, idx) => {
+        const prefix = p.id.startsWith("msia") ? "🇲🇾" : "🇯🇵";
+        const count = getUploadedImages(p.id).length;
+        return `<option value="${p.id}">${prefix} ${idx + 1}. ${escapeHtml(p.title)}（已傳 ${count}/10 張）</option>`;
+      }).join("");
+
+      if (preselectProdId) {
+        editingImgProdId = preselectProdId;
+      }
+      selectEl.value = editingImgProdId;
+      renderTenSlots();
+
+      const modal = document.getElementById("imgManagerModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    function renderTenSlots() {
+      const slots = getProductSlots(editingImgProdId);
+      const gridEl = document.getElementById("tenSlotsGrid");
+
+      gridEl.innerHTML = slots.map((imgSrc, idx) => `
+        <div class="bg-white rounded-xl border border-[#DFD2BC] p-1.5 flex flex-col justify-between shadow-2xs">
+          <div class="flex items-center justify-between text-[10px] font-extrabold text-muted mb-1">
+            <span>圖 ${idx + 1}</span>
+            ${imgSrc ? `<button type="button" onclick="removeSlotImage(${idx})" class="text-crimson hover:underline">刪除</button>` : `<span class="text-[#B3A792]">空位</span>`}
+          </div>
+
+          <div class="relative aspect-square rounded-lg overflow-hidden bg-[#F4EDE0] border border-dashed border-[#D6C7AE] flex items-center justify-center">
+            ${imgSrc
+              ? `<img src="${imgSrc}" alt="圖 ${idx + 1}" class="w-full h-full object-cover" />`
+              : `<label class="w-full h-full flex flex-col items-center justify-center cursor-pointer text-muted hover:text-midnight transition">
+                  <span class="text-base font-bold">＋</span>
+                  <span class="text-[9px] font-bold">上傳圖片</span>
+                  <input type="file" accept="image/*" class="hidden" onchange="handleSingleSlotUpload(event, ${idx})" />
+                </label>`
+            }
+          </div>
+
+          <button type="button" onclick="promptSlotUrl(${idx})" class="mt-1 w-full py-1 rounded bg-[#F5EFE4] hover:bg-[#EAE0CE] text-[9.5px] font-bold text-ink truncate">
+            ${imgSrc ? "更換網址" : "貼圖片網址"}
+          </button>
+        </div>
+      `).join("");
+    }
+
+    function compressImageFile(file, callback) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const img = new Image();
+        img.onload = function () {
+          const maxDim = 800;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+          const canvas = document.createElement("canvas");
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, w, h);
+          callback(canvas.toDataURL("image/jpeg", 0.82));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleSingleSlotUpload(event, slotIdx) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      compressImageFile(file, dataUrl => {
+        const slots = getProductSlots(editingImgProdId);
+        slots[slotIdx] = dataUrl;
+        customImagesMap[editingImgProdId] = slots;
+        saveImagesMap();
+        renderTenSlots();
         renderProducts();
+        if (activeProduct && activeProduct.id === editingImgProdId) renderDetailGallery();
+        showToast(`已上傳至「圖 ${slotIdx + 1}」`);
       });
+    }
+
+    function promptSlotUrl(slotIdx) {
+      const current = getProductSlots(editingImgProdId)[slotIdx] || "";
+      const urlInput = window.prompt(`請貼上「圖 ${slotIdx + 1}」的圖片網址（https://...）：`, current.startsWith("http") ? current : "");
+      if (urlInput === null) return;
+      const trimmed = urlInput.trim();
+      const slots = getProductSlots(editingImgProdId);
+      slots[slotIdx] = trimmed || null;
+      customImagesMap[editingImgProdId] = slots;
+      saveImagesMap();
+      renderTenSlots();
+      renderProducts();
+      if (activeProduct && activeProduct.id === editingImgProdId) renderDetailGallery();
+      showToast(trimmed ? `已更新「圖 ${slotIdx + 1}」網址` : `已清空「圖 ${slotIdx + 1}」`);
+    }
+
+    function removeSlotImage(slotIdx) {
+      const slots = getProductSlots(editingImgProdId);
+      slots[slotIdx] = null;
+      customImagesMap[editingImgProdId] = slots;
+      saveImagesMap();
+      renderTenSlots();
+      renderProducts();
+      if (activeProduct && activeProduct.id === editingImgProdId) renderDetailGallery();
+      showToast(`已移除「圖 ${slotIdx + 1}」`);
+    }
+
+    /* ==========================================================================
+       8. 事件監聽與雙館模式切換
+       ========================================================================== */
+    function switchStoreMode(newMode) {
+      storeMode = newMode;
+      currentCategory = "全部商品";
+
+      const msiaBtn = document.getElementById("modeMsiaBtn");
+      const japanBtn = document.getElementById("modeJapanBtn");
+
+      if (storeMode === "msia") {
+        msiaBtn.className = "py-2 px-3 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#E5C158] to-[#F3D57B] text-midnight shadow";
+        japanBtn.className = "py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-[#FAF6EE]/75 hover:text-white";
+        document.getElementById("headerTitle").textContent = "Neko Haul 馬來西亞精選";
+        document.getElementById("headerSubtitle").textContent = "IG: @neko.haul · 道地伴手禮與零食嚴選";
+      } else {
+        japanBtn.className = "py-2 px-3 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#E5C158] to-[#F3D57B] text-midnight shadow";
+        msiaBtn.className = "py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-[#FAF6EE]/75 hover:text-white";
+        document.getElementById("headerTitle").textContent = "Neko Haul 日本代購";
+        document.getElementById("headerSubtitle").textContent = "IG: @neko.haul · 輕量化嚴選";
+      }
+
+      renderCategoryTabs();
+      renderProducts();
+      updateCartUI();
+    }
+
+    document.getElementById("modeMsiaBtn").addEventListener("click", () => switchStoreMode("msia"));
+    document.getElementById("modeJapanBtn").addEventListener("click", () => switchStoreMode("japan"));
+
+    // 搜尋框
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+    searchInput.addEventListener("input", e => {
+      searchQuery = e.target.value;
+      clearSearchBtn.classList.toggle("hidden", !searchQuery);
+      renderProducts();
+    });
+    clearSearchBtn.addEventListener("click", () => {
+      searchQuery = "";
+      searchInput.value = "";
+      clearSearchBtn.classList.add("hidden");
+      renderProducts();
+    });
+    document.getElementById("resetFilterBtn").addEventListener("click", () => {
+      currentCategory = "全部商品";
+      searchQuery = "";
+      searchInput.value = "";
+      clearSearchBtn.classList.add("hidden");
+      renderCategoryTabs();
+      renderProducts();
     });
 
+    // 每行 2 個 vs 每行 3 個
     document.getElementById("btnCol2").addEventListener("click", () => {
       currentCols = 2;
-      document.getElementById("btnCol2").classList.add("active");
-      document.getElementById("btnCol3").classList.remove("active");
+      document.getElementById("btnCol2").className = "px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white text-midnight shadow-sm transition";
+      document.getElementById("btnCol3").className = "px-2.5 py-1 rounded-lg text-[11px] font-bold text-muted hover:text-ink transition";
       renderProducts();
     });
-
     document.getElementById("btnCol3").addEventListener("click", () => {
       currentCols = 3;
-      document.getElementById("btnCol3").classList.add("active");
-      document.getElementById("btnCol2").classList.remove("active");
+      document.getElementById("btnCol3").className = "px-2.5 py-1 rounded-lg text-[11px] font-bold bg-white text-midnight shadow-sm transition";
+      document.getElementById("btnCol2").className = "px-2.5 py-1 rounded-lg text-[11px] font-bold text-muted hover:text-ink transition";
       renderProducts();
     });
 
+    // 詳情彈窗操作
     document.getElementById("closeDetailBtn").addEventListener("click", () => {
-      document.getElementById("detailModal").classList.remove("open");
+      document.getElementById("detailModal").classList.add("hidden");
+      document.getElementById("detailModal").classList.remove("flex");
     });
-
-    document.getElementById("modalAddBtn").addEventListener("click", () => {
-      if (activeProduct) {
-        addToCart(activeProduct.id, selectedOption);
-        document.getElementById("detailModal").classList.remove("open");
+    document.getElementById("detailQtyMinus").addEventListener("click", () => {
+      if (detailQty > 1) {
+        detailQty -= 1;
+        document.getElementById("detailQtyVal").textContent = detailQty;
       }
     });
-
-    document.getElementById("modalWaBtn").addEventListener("click", () => {
+    document.getElementById("detailQtyPlus").addEventListener("click", () => {
+      detailQty += 1;
+      document.getElementById("detailQtyVal").textContent = detailQty;
+    });
+    document.getElementById("modalAddBtn").addEventListener("click", () => {
       if (!activeProduct) return;
-      const msg = `你好 Neko Haul (@neko.haul)！我想预订：\n• 商品：${activeProduct.title}\n• 规格：${selectedOption}\n• 一口价：RM ${activeProduct.priceRm}（50% 定金约 RM ${(activeProduct.priceRm * 0.5).toFixed(2)}）\n请问如何付定金锁单？`;
-      window.open(buildWaUrl(msg), "_blank");
+      addToCart(activeProduct.id, selectedSpec, detailQty);
+      document.getElementById("detailModal").classList.add("hidden");
+      document.getElementById("detailModal").classList.remove("flex");
+    });
+    document.getElementById("prevImgBtn").addEventListener("click", () => {
+      if (!activeProduct) return;
+      const len = getUploadedImages(activeProduct.id).length;
+      if (len > 1) {
+        activeSlideIdx = (activeSlideIdx - 1 + len) % len;
+        renderDetailGallery();
+      }
+    });
+    document.getElementById("nextImgBtn").addEventListener("click", () => {
+      if (!activeProduct) return;
+      const len = getUploadedImages(activeProduct.id).length;
+      if (len > 1) {
+        activeSlideIdx = (activeSlideIdx + 1) % len;
+        renderDetailGallery();
+      }
+    });
+    document.getElementById("detailQuickUploadBtn").addEventListener("click", () => {
+      if (activeProduct) openImageManager(activeProduct.id);
     });
 
+    // 購物車彈窗操作
     document.getElementById("openCartBtn").addEventListener("click", () => {
-      renderCartModalItems();
-      document.getElementById("cartModal").classList.add("open");
+      renderCartDrawer();
+      const modal = document.getElementById("cartModal");
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
     });
-
     document.getElementById("closeCartBtn").addEventListener("click", () => {
-      document.getElementById("cartModal").classList.remove("open");
+      document.getElementById("cartModal").classList.add("hidden");
+      document.getElementById("cartModal").classList.remove("flex");
     });
-
     document.getElementById("clearCartBtn").addEventListener("click", () => {
-      cart = [];
+      cart = cart.filter(c => c.mode !== storeMode);
       updateCartUI();
-      renderCartModalItems();
+      renderCartDrawer();
+      showToast("已清空目前商品館的購物車");
+    });
+    document.getElementById("copyCartBtn").addEventListener("click", copyCartToClipboard);
+
+    // 圖片管理中心操作
+    document.getElementById("openImgManagerBtn").addEventListener("click", () => openImageManager());
+    document.getElementById("closeImgManagerBtn").addEventListener("click", () => {
+      document.getElementById("imgManagerModal").classList.add("hidden");
+      document.getElementById("imgManagerModal").classList.remove("flex");
+    });
+    document.getElementById("doneImgManagerBtn").addEventListener("click", () => {
+      document.getElementById("imgManagerModal").classList.add("hidden");
+      document.getElementById("imgManagerModal").classList.remove("flex");
+      renderProducts();
+      if (activeProduct) renderDetailGallery();
+    });
+    document.getElementById("imgTargetProductSelect").addEventListener("change", e => {
+      editingImgProdId = e.target.value;
+      renderTenSlots();
+    });
+    document.getElementById("batchFileInput").addEventListener("change", e => {
+      const files = Array.from(e.target.files || []).slice(0, 10);
+      if (files.length === 0) return;
+
+      const slots = getProductSlots(editingImgProdId);
+      let loadedCount = 0;
+
+      files.forEach(file => {
+        compressImageFile(file, dataUrl => {
+          const emptyIdx = slots.findIndex(s => !s);
+          if (emptyIdx !== -1) {
+            slots[emptyIdx] = dataUrl;
+          } else {
+            slots[loadedCount % 10] = dataUrl;
+          }
+          loadedCount++;
+          if (loadedCount === files.length) {
+            customImagesMap[editingImgProdId] = slots;
+            saveImagesMap();
+            renderTenSlots();
+            renderProducts();
+            if (activeProduct && activeProduct.id === editingImgProdId) renderDetailGallery();
+            showToast(`✅ 已成功上傳 ${files.length} 張圖片！`);
+          }
+        });
+      });
+      e.target.value = "";
+    });
+    document.getElementById("clearProductImgsBtn").addEventListener("click", () => {
+      customImagesMap[editingImgProdId] = new Array(10).fill(null);
+      saveImagesMap();
+      renderTenSlots();
+      renderProducts();
+      if (activeProduct && activeProduct.id === editingImgProdId) renderDetailGallery();
+      showToast("已清除此商品的全部圖片");
+    });
+    document.getElementById("exportImagesJsonBtn").addEventListener("click", () => {
+      const jsonStr = JSON.stringify(customImagesMap, null, 2);
+      const blob = new Blob([jsonStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "neko-haul-images.json";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("已下載圖片配置檔案");
     });
 
-    document.getElementById("sendCartWaBtn").addEventListener("click", sendCartToWa);
-    document.getElementById("modalSendWaBtn").addEventListener("click", sendCartToWa);
-
-    ["detailModal", "cartModal"].forEach(id => {
+    // 點擊彈窗背景關閉
+    ["detailModal", "cartModal", "imgManagerModal"].forEach(id => {
       document.getElementById(id).addEventListener("click", e => {
-        if (e.target.id === id) e.target.classList.remove("open");
+        if (e.target.id === id) {
+          e.target.classList.add("hidden");
+          e.target.classList.remove("flex");
+        }
       });
     });
 
+    // 初始化渲染
+    renderCategoryTabs();
     renderProducts();
     updateCartUI();
   </script>
 </body>
 </html>
-"""
-
-with open("index_clean.html", "w", encoding="utf-8") as f:
-    f.write(clean_html)
-
-print("Clean HTML generated, length:", len(clean_html))

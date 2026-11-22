@@ -138,23 +138,17 @@
             </h1>
           </div>
         </div>
-
-        <!-- 圖片上傳管理中心入口（支援每款至少10張圖上傳） -->
-        <button id="openImgManagerBtn" type="button" class="shrink-0 px-2.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 active:scale-95 border border-gold/40 text-goldBright text-xs font-bold flex items-center gap-1 transition">
-          <span>📷</span>
-          <span>圖片管理</span>
-        </button>
       </div>
 
-      <!-- 雙館模式切換開關：馬來西亞產品頁面 vs 日本產品頁面 -->
+      <!-- 雙館模式切換開關：馬來西亞產品頁面（開放中） vs 日本產品頁面（灰色鎖定） -->
       <div class="relative z-10 mt-4 bg-black/35 p-1 rounded-2xl border border-gold/30 grid grid-cols-2 gap-1">
         <button id="modeMsiaBtn" type="button" class="py-2 px-3 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#E5C158] to-[#F3D57B] text-midnight shadow">
           <span>🇲🇾 馬來西亞商品館</span>
           <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-midnight/15 font-bold">¥ 售價</span>
         </button>
-        <button id="modeJapanBtn" type="button" class="py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-[#FAF6EE]/75 hover:text-white">
+        <button id="modeJapanBtn" type="button" disabled aria-disabled="true" class="py-2 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 bg-white/5 text-white/35 cursor-not-allowed select-none opacity-60">
           <span>🇯🇵 日本代購商品館</span>
-          <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 font-semibold">RM 售價</span>
+          <span class="text-[10px] px-1.5 py-0.5 rounded-full bg-white/10 text-white/40 font-semibold">暫未開放</span>
         </button>
       </div>
     </header>
@@ -235,12 +229,12 @@
         <!-- 頂部關閉與快速上傳該商品圖片按鈕 -->
         <div class="flex items-center justify-between gap-2 mb-2.5">
           <div id="detailBadgesRow" class="flex flex-wrap items-center gap-1.5">
+        <!-- 頂部關閉按鈕 -->
+        <div class="flex items-center justify-between gap-2 mb-2.5">
+          <div id="detailBadgesRow" class="flex flex-wrap items-center gap-1.5">
             <span id="detailCatBadge" class="text-[11px] font-normal px-2.5 py-0.5 rounded-full bg-midnight text-goldBright">分類</span>
           </div>
           <div class="flex items-center gap-1.5 shrink-0">
-            <button id="detailQuickUploadBtn" type="button" class="px-2.5 py-1 rounded-full bg-[#EFE6D5] hover:bg-[#E4D7C0] text-goldDark text-[11px] font-bold transition">
-              📷 管理商品圖 (<span id="detailPhotoCount">1</span>/10)
-            </button>
             <button id="closeDetailBtn" type="button" class="w-8 h-8 rounded-full bg-[#EFE6D5] text-ink font-bold flex items-center justify-center">✕</button>
           </div>
         </div>
@@ -434,7 +428,7 @@
         title: "05. Munchy's Oat Krunch 燕麥曲奇（15~17入）",
         price: 1090,
         note: "健康高纖香脆燕麥餅乾，早餐下午茶輕享無負擔",
-        specs: ["Dark Chocolate", "Nutty Chocolate", "Strawberry & Blackcurrant"],
+        specs: ["黑巧克力", "堅果巧克力", "草莓和黑加侖"],
         coverIcon: "🌾",
         coverBg: "from-[#2E2416] to-[#0B1120]"
       },
@@ -452,7 +446,7 @@
       {
         id: "msia-07",
         category: "餅乾零食",
-        badges: [{ text: "人氣", type: "hot" }],
+        badges: [],
         title: "07. Mamee 脆麵零食（10+1入）",
         price: 690,
         note: "捏碎灑粉搖一搖，大馬人從小吃到大的懷舊點心麵",
@@ -466,7 +460,7 @@
         badges: [{ text: "經典", type: "classic" }, { text: "Black Pink 推薦", type: "star" }],
         title: "08. Oriental Super Ring 超級芝士圈 60g",
         price: 290,
-        note: "Black Pink Lisa & Rosé 推薦同款，濃郁切達起司香氣",
+        note: "Black Pink Jisoo & Jennie 推薦同款，濃郁切達起司香氣",
         specs: [],
         coverIcon: "🧀",
         coverBg: "from-[#36260E] to-[#0B1120]"
@@ -512,8 +506,8 @@
         badges: [{ text: "人氣", type: "hot" }, { text: "MAMAMOO 華莎 推薦", type: "star" }],
         title: "12. Beryl's Tiramisu 提拉米蘇巧克力 65g",
         price: 750,
-        note: "韓國女星華莎同款大讚，整顆香脆烘焙杏仁裹滿可可粉，絲滑濃郁微苦回甘",
-        specs: ["Almond Dark", "Almond Milk", "Almond White"],
+        note: "韓國女星華莎同款大讚, 整顆香脆烘焙杏仁裹滿可可粉，絲滑濃郁微苦回甘",
+        specs: ["杏仁黑巧", "杏仁奶巧", "杏仁白巧"],
         coverIcon: "🍫",
         coverBg: "from-[#241614] to-[#0B1120]"
       },
@@ -524,7 +518,7 @@
         title: "13. Beryl's Pop 跳跳糖巧克力 50g",
         price: 750,
         note: "醇厚巧克力遇上舌尖跳躍跳跳糖，趣味十足新奇口感",
-        specs: ["Fresh Mint Bittersweet Chocolate", "Cola Bittersweet Chocolate", "Lemon White Chocolate"],
+        specs: ["清新薄荷微苦甜巧克力", "可樂微苦甜巧克力", "檸檬白巧克力"],
         coverIcon: "✨",
         coverBg: "from-[#1C1D38] to-[#0B1120]"
       },
@@ -535,7 +529,7 @@
         title: "14. Himalaya Salt 海鹽糖果 15g",
         price: 190,
         note: "天然喜馬拉雅粉紅岩鹽製成，清涼潤喉隨時補充鹽分",
-        specs: ["Ginger Lemon", "(Extra Cool) Mint", "Ambra"],
+        specs: ["檸檬薑", "(特凉)薄荷", "(特凉)沙梨"],
         coverIcon: "🧊",
         coverBg: "from-[#122836] to-[#0B1120]"
       },
@@ -546,7 +540,7 @@
         title: "15. Halls 糖果 12.5g",
         price: 190,
         note: "隨身清涼薄荷潤喉糖，提神醒腦口氣清新必備",
-        specs: ["Cola Chill", "Lime", "Blueberry", "Watermelon", "Assorted Flavours"],
+        specs: ["可樂冰鎮", "萊姆", "藍莓", "西瓜", "綜合口味"],
         coverIcon: "🍬",
         coverBg: "from-[#14233D] to-[#0B1120]"
       },
@@ -601,7 +595,7 @@
         title: "20. Fizzy Cola 可樂糖 / 檸檬糖 120g",
         price: 390,
         note: "氣泡感十足酸爽滋味，喚醒童年記憶的經典汽水糖",
-        specs: ["Cola", "Lemon"],
+        specs: ["可樂", "檸檬"],
         coverIcon: "🥤",
         coverBg: "from-[#2B1815] to-[#0B1120]"
       },
@@ -612,7 +606,7 @@
         title: "21. Lot 100 Q彈水果軟糖 150g",
         price: 550,
         note: "濃縮真實果汁製成，Q彈飽滿果香濃郁大人小孩都愛",
-        specs: ["Apple", "Blackcurrant", "Strawberry", "Mango", "Assorted"],
+        specs: ["蘋果", "黑加侖", "草莓", "芒果", "綜合口味"],
         coverIcon: "🥭",
         coverBg: "from-[#33240E] to-[#0B1120]"
       },
@@ -623,7 +617,7 @@
         title: "22. Lot 100 Sour+ Q彈軟糖 100g",
         price: 450,
         note: "外層微酸糖粉搭配Q彈果汁軟糖，酸甜過癮超開胃",
-        specs: ["Blackcurrant", "Mango", "Orange", "Apple", "Strawberry", "Assorted"],
+        specs: ["黑加侖", "芒果", "橘子", "蘋果", "草莓", "綜合口味"],
         coverIcon: "🍊",
         coverBg: "from-[#331E0E] to-[#0B1120]"
       },
@@ -678,7 +672,7 @@
         title: "27. Ribena 軟糖 40g",
         price: 290,
         note: "富含維他命C的黑加侖果汁軟糖，酸甜Q彈果味純正",
-        specs: ["Mixed Berries", "Peach"],
+        specs: ["混合莓果", "桃子"],
         coverIcon: "🍇",
         coverBg: "from-[#261629] to-[#0B1120]"
       },
@@ -711,7 +705,7 @@
       {
         id: "msia-30",
         category: "速食麵湯包",
-        badges: [{ text: "人氣", type: "hot" }],
+        badges: [{ text: "經典", type: "classic" }],
         title: "30. A1 肉骨茶湯包",
         price: 790,
         note: "精選十餘種道地草本藥材，在家輕鬆燉煮正宗巴生風味",
@@ -733,7 +727,7 @@
       {
         id: "msia-32",
         category: "速食麵湯包",
-        badges: [],
+        badges: [{ text: "經典", type: "classic" }],
         title: "32. Ibumie 原味乾撈炒麵（5+1入）",
         price: 950,
         note: "南洋經典甜醬油與香蔥油拌麵，鹹香順口加顆煎蛋更絕",
@@ -777,7 +771,7 @@
       {
         id: "msia-36",
         category: "速食麵湯包",
-        badges: [],
+        badges: [{ text: "人氣", type: "hot" }],
         title: "36. Mamee Chef 系列 4入",
         price: 1090,
         note: "拉麵級彈牙口感搭配名廚秘製湯底，宵夜豪華享受",
@@ -788,7 +782,7 @@
       {
         id: "msia-37",
         category: "速食麵湯包",
-        badges: [{ text: "經典", type: "classic" }],
+        badges: [],
         title: "37. Mamee 素快熟麵（5+1入）",
         price: 950,
         note: "清爽鮮甜純素湯頭，素食者也能安心享用的美味快熟麵",
@@ -805,7 +799,7 @@
         title: "38. ZUS Ngupi 大馬南洋咖啡系列（13~18入）",
         price: 1250,
         note: "大馬人氣連鎖咖啡品牌出品，地道南洋香濃烘焙風味",
-        specs: [],
+        specs: ["白咖啡", "白咖啡(无糖)", "咖啡乌", "鸳鸯", "虎咬狮"],
         coverIcon: "☕",
         coverBg: "from-[#17213B] to-[#0B1120]"
       },
@@ -827,7 +821,7 @@
         title: "40. ZUS COFFEE Signature Mixes 特調咖啡（5入）",
         price: 990,
         note: "多款經典拿鐵特調隨身包，在家輕鬆還原精品手沖質感",
-        specs: ["Caffe Latte", "Mocha Latte", "Dolce Latte", "Caramel Latte", "Cinnamon Latte"],
+        specs: ["Caffe Latte", "Signature Caffe Latte", "Mocha Latte", "Dolce Latte", "Signature Salted Caramel Latte", "Cinnamon Latte"],
         coverIcon: "☕",
         coverBg: "from-[#1A2442] to-[#0B1120]"
       },
@@ -882,7 +876,7 @@
         title: "45. BOH 寶樂 金馬倫拉茶系列",
         price: 1350,
         note: "金馬倫高原優質紅茶製成，茶香濃郁奶泡綿密道地拉茶",
-        specs: ["少甜", "入薑", "拿鐵"],
+        specs: ["少糖", "入薑", "抹茶拿鐵"],
         coverIcon: "🧋",
         coverBg: "from-[#1A2B22] to-[#0B1120]"
       }
@@ -1568,20 +1562,13 @@
        8. 事件監聽綁定與頁面初始化
        ========================================================================== */
     function setStoreMode(mode) {
-      storeMode = mode;
+      if (mode === "japan") return;
+      storeMode = "msia";
       const msiaBtn = document.getElementById("modeMsiaBtn");
-      const jpBtn = document.getElementById("modeJapanBtn");
       const headerTitle = document.getElementById("headerTitle");
 
-      if (mode === "msia") {
-        msiaBtn.className = "py-2 px-3 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#E5C158] to-[#F3D57B] text-midnight shadow";
-        jpBtn.className = "py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-[#FAF6EE]/75 hover:text-white";
-        headerTitle.textContent = "Neko Haul 馬來西亞精選";
-      } else {
-        jpBtn.className = "py-2 px-3 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#E5C158] to-[#F3D57B] text-midnight shadow";
-        msiaBtn.className = "py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 text-[#FAF6EE]/75 hover:text-white";
-        headerTitle.textContent = "Neko Haul 日本代購精選";
-      }
+      msiaBtn.className = "py-2 px-3 rounded-xl text-xs font-extrabold transition flex items-center justify-center gap-1.5 bg-gradient-to-r from-[#E5C158] to-[#F3D57B] text-midnight shadow";
+      headerTitle.textContent = "Neko Haul 馬來西亞精選";
 
       currentCategory = "全部商品";
       renderCategoryTabs();
@@ -1630,9 +1617,6 @@
     document.getElementById("closeDetailBtn").addEventListener("click", () => {
       document.getElementById("detailModal").classList.add("hidden");
       document.getElementById("detailModal").classList.remove("flex");
-    });
-    document.getElementById("detailQuickUploadBtn").addEventListener("click", () => {
-      if (activeProduct) openImageManager(activeProduct.id);
     });
     document.getElementById("prevImgBtn").addEventListener("click", () => {
       if (!activeProduct) return;
@@ -1683,9 +1667,12 @@
     });
     document.getElementById("copyCartBtn").addEventListener("click", copyCartToClipboard);
 
-    document.getElementById("openImgManagerBtn").addEventListener("click", () => {
-      openImageManager(editingImgProdId);
-    });
+    const openImgManagerBtn = document.getElementById("openImgManagerBtn");
+    if (openImgManagerBtn) {
+      openImgManagerBtn.addEventListener("click", () => {
+        openImageManager(editingImgProdId);
+      });
+    }
     document.getElementById("closeImgManagerBtn").addEventListener("click", () => {
       document.getElementById("imgManagerModal").classList.add("hidden");
       document.getElementById("imgManagerModal").classList.remove("flex");

@@ -379,125 +379,512 @@
 
   <script>
     /* ==========================================================================
-       1. 馬來西亞精選 45 款商品資料庫（日幣 ¥ 售價）
+       1. 馬來西亞精選 45 款商品資料庫（繁體中文 · 日幣 ¥ 售價 · 精準對應 01~45 資料夾）
        ========================================================================== */
     const MSIA_PRODUCTS = [
-      { id: "msia-01", category: "傳統糕餅", badges: [{ text: "經典", type: "classic" }], title: "01. 檳城老字號淡汶餅（原味/斑蘭）", price: 1450, note: "外皮酥香鬆化，甜鹹適中不膩口", specs: ["原味 16粒裝", "斑蘭 16粒裝"], coverIcon: "🥮", coverBg: "from-[#2A2118] to-[#0B1120]" },
-      { id: "msia-02", category: "傳統糕餅", badges: [{ text: "人氣", type: "hot" }], title: "02. 怡保炭燒香餅（黑糖麥芽餡）", price: 1280, note: "古法炭烤脆皮，內餡濃郁拉絲", specs: ["標準裝 10片", "禮盒裝 16片"], coverIcon: "🍪", coverBg: "from-[#2D1F14] to-[#0B1120]" },
-      { id: "msia-03", category: "南洋白咖啡", badges: [{ text: "經典", type: "classic" }], title: "03. 怡保舊街場經典三合一白咖啡", price: 1680, note: "低溫烘焙香醇順滑，晨間提神必備", specs: ["經典原味 15條", "榛果風味 15條", "減糖配方 15條"], coverIcon: "☕", coverBg: "from-[#261B15] to-[#0B1120]" },
-      { id: "msia-04", category: "休閒零食", badges: [{ text: "人氣", type: "hot" }, { text: "經典", type: "classic" }], title: "04. Oriental Super Ring 超級芝士圈", price: 650, note: "BLACKPINK 同款推薦，濃郁切達起司香氣", specs: ["家庭分享包 8小袋", "大包裝 60g×3"], coverIcon: "🧀", coverBg: "from-[#36260E] to-[#0B1120]" },
-      { id: "msia-05", category: "南洋茶飲", badges: [{ text: "經典", type: "classic" }], title: "05. BOH 金馬倫高原拉茶 Teh Tarik", price: 1380, note: "茶香濃郁奶泡綿密，冷熱沖泡皆宜", specs: ["原味拉茶 12條", "生薑拉茶 12條"], coverIcon: "🧋", coverBg: "from-[#1A2B22] to-[#0B1120]" },
-      { id: "msia-06", category: "醬料料理", badges: [{ text: "人氣", type: "hot" }], title: "06. A1 巴生肉骨茶藥材湯料包", price: 980, note: "精選十餘種草本香料，在家輕鬆燉煮正宗風味", specs: ["經典藥材味 2包入", "胡椒清湯味 2包入"], coverIcon: "🍲", coverBg: "from-[#2B1815] to-[#0B1120]" },
-      { id: "msia-07", category: "醬料料理", badges: [{ text: "人氣", type: "hot" }], title: "07. 檳城正宗白咖哩即食麵（4包裝）", price: 1150, note: "濃郁椰漿與特製辣醬，連續多年世界泡麵榜首", specs: ["原味白咖哩 4包", "東炎海鮮味 4包"], coverIcon: "🍜", coverBg: "from-[#331712] to-[#0B1120]" },
-      { id: "msia-08", category: "休閒零食", badges: [{ text: "經典", type: "classic" }], title: "08. Mamee Monster 媽咪怪獸點心麵", price: 580, note: "國民童年零嘴，附贈調味粉搖搖更香脆", specs: ["雞汁原味 8小包", "香辣口味 8小包"], coverIcon: "👾", coverBg: "from-[#142342] to-[#0B1120]" },
-      { id: "msia-09", category: "休閒零食", badges: [{ text: "人氣", type: "hot" }], title: "09. Beryl's 提拉米蘇杏仁黑巧克力", price: 1850, note: "整顆香脆烘焙杏仁裹滿可可粉，絲滑微苦", specs: ["杏仁黑巧 200g", "杏仁牛奶巧 200g", "抹茶白巧 200g"], coverIcon: "🍫", coverBg: "from-[#241614] to-[#0B1120]" },
-      { id: "msia-10", category: "居家草本", badges: [{ text: "經典", type: "classic" }], title: "10. 斧標驅風油 / 豆蔻膏隨身組", price: 880, note: "南洋居家必備良品，提神醒腦舒緩不適", specs: ["驅風油 28ml", "檳城豆蔻膏 20g"], coverIcon: "🌿", coverBg: "from-[#132920] to-[#0B1120]" },
-      { id: "msia-11", category: "休閒零食", badges: [], title: "11. Lot 100 一百份芒果汁軟糖", price: 780, note: "濃縮真實果汁製成，Q彈酸甜大人小孩都愛", specs: ["芒果味 150g", "綜合水果味 150g"], coverIcon: "🥭", coverBg: "from-[#33240E] to-[#0B1120]" },
-      { id: "msia-12", category: "南洋白咖啡", badges: [], title: "12. 澤合怡保特濃白咖啡（無加糖）", price: 1720, note: "重度咖啡愛好者首選，保留純粹焦香與回甘", specs: ["特濃無糖 15條", "經典微甜 15條"], coverIcon: "☕", coverBg: "from-[#211813] to-[#0B1120]" },
-      { id: "msia-13", category: "休閒零食", badges: [], title: "13. Apollo 班蘭千層蛋糕（24入盒裝）", price: 1120, note: "清新南洋斑蘭葉香氣，鬆軟綿密下午茶良伴", specs: ["斑蘭味 24入", "巧克力味 24入"], coverIcon: "🍰", coverBg: "from-[#172B1C] to-[#0B1120]" },
-      { id: "msia-14", category: "醬料料理", badges: [{ text: "人氣", type: "hot" }], title: "14. 馬六甲娘惹參巴蝦米辣椒醬", price: 1250, note: "拌飯拌麵炒菜百搭神器，鮮香微辣開胃", specs: ["原味參巴醬 200g", "特辣蝦米醬 200g"], coverIcon: "🌶️", coverBg: "from-[#361512] to-[#0B1120]" },
-      { id: "msia-15", category: "休閒零食", badges: [], title: "15. Munchy's 檸檬夾心蘇打餅乾", price: 850, note: "金黃酥脆蘇打餅搭配清新檸檬奶油夾心", specs: ["檸檬夾心 10小包", "花生醬夾心 10小包"], coverIcon: "🍋", coverBg: "from-[#2E2911] to-[#0B1120]" },
-      { id: "msia-16", category: "南洋茶飲", badges: [], title: "16. 美祿 Milo 濃郁可可麥芽隨身包", price: 1480, note: "國民經典能量飲品，馬來西亞版本可可味更濃", specs: ["18條裝袋裝", "加濃版 15條"], coverIcon: "🥤", coverBg: "from-[#12291A] to-[#0B1120]" },
-      { id: "msia-17", category: "傳統糕餅", badges: [], title: "17. 麻坡傳統雞仔餅（南乳蒜香脆片）", price: 1180, note: "鹹香酥脆越嚼越香，配茶追劇最佳搭檔", specs: ["薄脆片裝 220g", "厚實軟心裝 250g"], coverIcon: "🍘", coverBg: "from-[#2B2014] to-[#0B1120]" },
-      { id: "msia-18", category: "醬料料理", badges: [], title: "18. 檳城亞參叻沙濃縮湯底醬", price: 1080, note: "酸辣鮮香南洋代表，加入米線與薄荷葉即成", specs: ["200g 袋裝"], coverIcon: "🐟", coverBg: "from-[#291718] to-[#0B1120]" },
-      { id: "msia-19", category: "休閒零食", badges: [], title: "19. Julie's 茱蒂絲花生醬三明治餅", price: 890, note: "香濃滑順花生醬夾心，獨立小包裝方便攜帶", specs: ["花生醬 12小包", "起司夾心 12小包"], coverIcon: "🥜", coverBg: "from-[#2E2112] to-[#0B1120]" },
-      { id: "msia-20", category: "水果乾果", badges: [{ text: "人氣", type: "hot" }], title: "20. 貓山王凍乾榴槤乾（純果肉）", price: 2480, note: "零下急凍鎖鮮，入口酥脆隨即化為濃郁果泥", specs: ["50g 隨享包", "100g 禮盒裝"], coverIcon: "👑", coverBg: "from-[#30280E] to-[#0B1120]" },
-      { id: "msia-21", category: "水果乾果", badges: [], title: "21. 沙巴特產香脆波羅蜜乾", price: 1280, note: "低溫真空脱水保留天然果甜，清脆不油膩", specs: ["100g 夾鏈袋"], coverIcon: "🍈", coverBg: "from-[#2B2611] to-[#0B1120]" },
-      { id: "msia-22", category: "醬料料理", badges: [], title: "22. 海南雞飯特製薑蓉與黑醬油組合", price: 1350, note: "正宗星馬海南雞飯靈魂雙醬，輕鬆還原茶室風味", specs: ["雙瓶禮盒組"], coverIcon: "🍗", coverBg: "from-[#261D14] to-[#0B1120]" },
-      { id: "msia-23", category: "休閒零食", badges: [], title: "23. 鹹蛋黃魚皮酥脆零嘴", price: 1580, note: "真材實料鹹蛋黃沙沙包裹酥脆魚皮，微辣提鮮", specs: ["原味鹹蛋黃 100g", "香辣鹹蛋黃 100g"], coverIcon: "🐡", coverBg: "from-[#332710] to-[#0B1120]" },
-      { id: "msia-24", category: "南洋白咖啡", badges: [], title: "24. 亞發牌特濃金牌白咖啡", price: 1620, note: "精選阿拉比卡與羅布斯塔豆黃金比例拼配", specs: ["金牌原味 15條", "低脂版 15條"], coverIcon: "☕", coverBg: "from-[#241914] to-[#0B1120]" },
-      { id: "msia-25", category: "居家草本", badges: [], title: "25. 追風蘇合丸 / 虎標萬金油組合", price: 950, note: "居家旅行常備良藥，舒緩肩頸疲勞與蚊蟲叮咬", specs: ["紅色溫感 19g", "白色清涼 19g"], coverIcon: "🐯", coverBg: "from-[#2E1B12] to-[#0B1120]" },
-      { id: "msia-26", category: "傳統糕餅", badges: [], title: "26. 馬六甲椰糖 Gula Melaka 塊狀純糖", price: 920, note: "純天然椰花汁熬製，焦香濃郁適合做甜品與咖啡", specs: ["500g 傳統竹筒裝"], coverIcon: "🥥", coverBg: "from-[#261B12] to-[#0B1120]" },
-      { id: "msia-27", category: "休閒零食", badges: [], title: "27. 寶寶香化美味魚肉豆餅（大袋裝）", price: 760, note: "酥脆鮮香魚味零食，追劇聚會停不下來的懷舊味", specs: ["30小包家庭袋"], coverIcon: "🐠", coverBg: "from-[#14253D] to-[#0B1120]" },
-      { id: "msia-28", category: "南洋茶飲", badges: [], title: "28. 益昌老街南洋 Kopi-O 烏咖啡袋", price: 1180, note: "傳統咖啡袋浸泡沖泡，感受道地茶室濃厚炭焙香", specs: ["無糖烏咖啡 20袋", "加糖烏咖啡 20袋"], coverIcon: "🫖", coverBg: "from-[#1F1814] to-[#0B1120]" },
-      { id: "msia-29", category: "醬料料理", badges: [], title: "29. 娘惹仁當牛肉/雞肉咖哩醬包", price: 1120, note: "香茅南薑椰漿慢熬配方，燉煮肉類香氣撲鼻", specs: ["180g 料理包"], coverIcon: "🍛", coverBg: "from-[#2E1A11] to-[#0B1120]" },
-      { id: "msia-30", category: "休閒零食", badges: [], title: "30. 榴槤夾心威化餅乾（獨立包裝）", price: 980, note: "四層酥脆威化夾著香濃榴槤奶油，不沾手好分享", specs: ["150g 盒裝"], coverIcon: "🧇", coverBg: "from-[#2E2712] to-[#0B1120]" },
-      { id: "msia-31", category: "傳統糕餅", badges: [], title: "31. 檳城榴槤酥 / 鳳梨酥綜合禮盒", price: 1680, note: "奶香酥皮包裹厚實果肉纖維內餡，送禮體面大方", specs: ["綜合 12入禮盒"], coverIcon: "🍍", coverBg: "from-[#302410] to-[#0B1120]" },
-      { id: "msia-32", category: "休閒零食", badges: [], title: "32. 咪咪蝦味條經典懷舊組合", price: 620, note: "金黃香脆蝦味點心條，老少咸宜的經典小零嘴", specs: ["30小包分享裝"], coverIcon: "🦐", coverBg: "from-[#331B14] to-[#0B1120]" },
-      { id: "msia-33", category: "水果乾果", badges: [], title: "33. 沙巴香脆香蕉片（原味/焦糖）", price: 890, note: "精選成熟香蕉薄切油炸瀝油，香甜酥脆卡滋響", specs: ["原味微鹹 150g", "焦糖甜味 150g"], coverIcon: "🍌", coverBg: "from-[#2E2610] to-[#0B1120]" },
-      { id: "msia-34", category: "南洋茶飲", badges: [], title: "34. 雀巢 Neslo 咖啡可可特調隨身包", price: 1520, note: "大馬茶室經典隱藏喝法，咖啡香與美祿完美融合", specs: ["15條裝"], coverIcon: "🥤", coverBg: "from-[#211A15] to-[#0B1120]" },
-      { id: "msia-35", category: "醬料料理", badges: [], title: "35. 檳城福建蝦麵濃郁湯頭醬", price: 1150, note: "大量蝦殼熬製紅油高湯精華，煮麵煮米粉皆美味", specs: ["200g 袋裝"], coverIcon: "🦐", coverBg: "from-[#331612] to-[#0B1120]" },
-      { id: "msia-36", category: "居家草本", badges: [], title: "36. 蘭卡威海參油 / 東革阿里草本茶", price: 1450, note: "馬來西亞半島傳統滋補草本，日常養生調理", specs: ["草本茶 20包", "海參舒緩油 60ml"], coverIcon: "🌱", coverBg: "from-[#14291E] to-[#0B1120]" },
-      { id: "msia-37", category: "休閒零食", badges: [], title: "37. Vochelle 杏仁葡萄乾牛奶巧克力", price: 1280, note: "香甜葡萄乾與脆杏仁雙重口感，獨立錫紙包裝", specs: ["175g 袋裝"], coverIcon: "🍇", coverBg: "from-[#261629] to-[#0B1120]" },
-      { id: "msia-38", category: "傳統糕餅", badges: [{ text: "人氣", type: "hot" }], title: "38. 怡保鹽焗雞香料粉（古法錫紙包）", price: 960, note: "當歸黨參與粗海鹽黃金比例，電飯煲也能做鹽焗雞", specs: ["2包入組合"], coverIcon: "🐔", coverBg: "from-[#2E2414] to-[#0B1120]" },
-      { id: "msia-39", category: "休閒零食", badges: [], title: "39. 寶寶甜辣木薯片（傳統南洋風味）", price: 820, note: "薄切木薯片裹上微甜微辣秘製糖漿，越吃越上癮", specs: ["160g 袋裝"], coverIcon: "🥔", coverBg: "from-[#301912] to-[#0B1120]" },
-      { id: "msia-40", category: "水果乾果", badges: [{ text: "經典", type: "classic" }], title: "40. 檳城八珍陳皮梅 / 甘草芒果乾", price: 1050, note: "生津止渴開胃蜜餞，長途搭車追劇解饞良品", specs: ["甘草芒果乾 150g", "陳皮梅 150g"], coverIcon: "🍑", coverBg: "from-[#2E1E14] to-[#0B1120]" },
-      { id: "msia-41", category: "醬料料理", badges: [], title: "41. 傳統南洋椰漿飯 Nasi Lemak 參巴醬", price: 1080, note: "洋蔥羅望子慢火炒製，配煎蛋小魚乾就是道地早餐", specs: ["200g 玻璃罐"], coverIcon: "🍚", coverBg: "from-[#2E1612] to-[#0B1120]" },
-      { id: "msia-42", category: "南洋白咖啡", badges: [], title: "42. 益昌老街白咖啡（焦糖瑪奇朵風味）", price: 1580, note: "絲滑奶泡融合焦糖甜香，居家享受咖啡館質感", specs: ["12條盒裝"], coverIcon: "☕", coverBg: "from-[#291E15] to-[#0B1120]" },
-      { id: "msia-43", category: "休閒零食", badges: [], title: "43. Hup Seng 合成乒乓較較餅（經典原味）", price: 880, note: "大馬家喻戶曉蘇打餅，蘸熱白咖啡或美祿是絕配", specs: ["428g 家庭包"], coverIcon: "🍪", coverBg: "from-[#2B2216] to-[#0B1120]" },
-      { id: "msia-44", category: "居家草本", badges: [], title: "44. 檳城豆蔻水濃縮露（清涼解暑）", price: 1120, note: "加冰水稀釋即飲，果香獨特消食解膩", specs: ["500ml 瓶裝"], coverIcon: "🍹", coverBg: "from-[#1A2918] to-[#0B1120]" },
-      { id: "msia-45", category: "傳統糕餅", badges: [{ text: "經典", type: "classic" }], title: "45. 傳統黑芝麻花生貢糖（手工酥糖）", price: 1180, note: "老師傅手工拉製層次分明，入口即化滿口堅果香", specs: ["250g 罐裝"], coverIcon: "🍬", coverBg: "from-[#241E18] to-[#0B1120]" }
-    ];
-
-    /* ==========================================================================
-       2. 日本代購商品資料庫（供頂部開關切換至「日本代購商品館」時顯示）
-       ========================================================================== */
-    const JAPAN_PRODUCTS = [
+      // Row 3-14: 餅乾零食（編號 01 ~ 11）
       {
-        id: "jp-01",
-        category: "GU 穿搭",
+        id: "msia-01",
+        category: "餅乾零食",
         badges: [{ text: "人氣", type: "hot" }],
-        title: "GU 日系通勤穿搭整套（上衣＋闊腿褲）",
-        price: 164,
-        note: "上衣＋褲子打包優惠價，上班族與媽咪好穿免煩惱搭配",
-        specs: ["S 碼", "M 碼", "L 碼", "XL 碼"],
-        coverIcon: "🧥",
-        coverBg: "from-[#1B2854] to-[#0B1120]"
+        title: "01. Julie's 茱蒂絲花生醬三明治餅 便利裝 12入",
+        price: 880,
+        note: "香濃滑順花生醬夾心，獨立小包裝方便隨身分享",
+        specs: [],
+        coverIcon: "🥜",
+        coverBg: "from-[#2E2112] to-[#0B1120]"
       },
       {
-        id: "jp-02",
-        category: "GU 穿搭",
+        id: "msia-02",
+        category: "餅乾零食",
         badges: [{ text: "經典", type: "classic" }],
-        title: "GU 柔滑針織短袖單穿款",
-        price: 70,
-        note: "清爽透氣版型，單買或搭配闊腿褲都百搭",
-        specs: ["S 碼", "M 碼", "L 碼", "XL 碼"],
-        coverIcon: "👕",
-        coverBg: "from-[#27376E] to-[#0D1326]"
+        title: "02. Apollo 巧克力威化餅乾 18入",
+        price: 650,
+        note: "香脆威化裹滿濃醇可可，大馬國民經典零嘴",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#2A1915] to-[#0B1120]"
       },
       {
-        id: "jp-03",
-        category: "扭蛋 IP",
+        id: "msia-03",
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "03. Apollo 巧克力餅干條 18入",
+        price: 650,
+        note: "酥脆餅乾棒包裹香濃巧克力醬，追劇解饞首選",
+        specs: [],
+        coverIcon: "🍪",
+        coverBg: "from-[#261814] to-[#0B1120]"
+      },
+      {
+        id: "msia-04",
+        category: "餅乾零食",
         badges: [{ text: "人氣", type: "hot" }],
-        title: "Chiikawa 造型扭蛋（代抽盲盒）",
-        price: 12,
-        note: "現場代抽拍攝短影片，開盒驚喜感滿滿",
-        specs: ["盲盒代抽 1 顆", "盲盒代抽 3 顆", "詢問整套包圓"],
-        coverIcon: "🐱",
-        coverBg: "from-[#162147] to-[#0B1120]"
+        title: "04. Munchy's Lexus 巧克力夾心餅乾（11~18包）",
+        price: 1090,
+        note: "外層微鹹酥脆搭配濃郁夾心，多款人氣口味任選",
+        specs: ["方形巧克力", "方形花生", "方形芝士", "方形海鹽香草", "方形海鹽巧克力", "圓形巧克力（裹滿）"],
+        coverIcon: "🍪",
+        coverBg: "from-[#2B1D14] to-[#0B1120]"
       },
       {
-        id: "jp-04",
-        category: "扭蛋 IP",
-        badges: [{ text: "經典", type: "classic" }],
-        title: "三麗鷗人氣吊飾系列扭蛋",
-        price: 16,
-        note: "小巧精緻不佔空間，適合掛包包或鑰匙圈",
-        specs: ["盲盒代抽 1 顆", "盲盒代抽 2 顆", "詢問整套包圓"],
-        coverIcon: "🎀",
-        coverBg: "from-[#321D47] to-[#0D1024]"
+        id: "msia-05",
+        category: "餅乾零食",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "05. Munchy's Oat Krunch 燕麥曲奇（15~17入）",
+        price: 1090,
+        note: "健康高纖香脆燕麥餅乾，早餐下午茶輕享無負擔",
+        specs: ["Dark Chocolate", "Nutty Chocolate", "Strawberry & Blackcurrant"],
+        coverIcon: "🌾",
+        coverBg: "from-[#2E2416] to-[#0B1120]"
       },
       {
-        id: "jp-05",
-        category: "扭蛋 IP",
+        id: "msia-06",
+        category: "餅乾零食",
+        badges: [{ text: "人氣", type: "hot" }, { text: "Black Pink 推薦", type: "star" }],
+        title: "06. Munchy's 奶油夾心餅乾 270g",
+        price: 690,
+        note: "金黃酥脆蘇打餅夾入香甜奶油，百吃不膩經典款",
+        specs: [],
+        coverIcon: "🧈",
+        coverBg: "from-[#332710] to-[#0B1120]"
+      },
+      {
+        id: "msia-07",
+        category: "餅乾零食",
         badges: [],
-        title: "蠟筆小新 / 寶可夢迷你擺件扭蛋",
-        price: 20,
-        note: "桌面療癒小擺件精選，收藏送禮兩相宜",
-        specs: ["蠟筆小新盲抽", "寶可夢盲抽", "兩款各 1 顆"],
-        coverIcon: "⚡",
-        coverBg: "from-[#182B52] to-[#0B1120]"
+        title: "07. Mamee 脆麵零食（10+1入）",
+        price: 690,
+        note: "捏碎灑粉搖一搖，大馬人從小吃到大的懷舊點心麵",
+        specs: ["BBQ", "香雞"],
+        coverIcon: "👾",
+        coverBg: "from-[#142342] to-[#0B1120]"
       },
       {
-        id: "jp-06",
-        category: "Costco 精選",
+        id: "msia-08",
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "08. Oriental Super Ring 超級芝士圈 60g",
+        price: 290,
+        note: "Black Pink Lisa & Rosé 推薦同款，濃郁切達起司香氣",
+        specs: [],
+        coverIcon: "🧀",
+        coverBg: "from-[#36260E] to-[#0B1120]"
+      },
+      {
+        id: "msia-09",
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }, { text: "人氣", type: "hot" }],
+        title: "09. Popo 寶寶魚肉豆餅 60g",
+        price: 290,
+        note: "酥脆香濃鮮魚風味小零嘴，一口接一口停不下來",
+        specs: ["原味", "香辣雞", "甜辣", "海苔"],
+        coverIcon: "🐠",
+        coverBg: "from-[#14253D] to-[#0B1120]"
+      },
+      {
+        id: "msia-10",
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }, { text: "MAMAMOO 華莎 推薦", type: "star" }],
+        title: "10. 榴槤味啤啤菓 60g",
+        price: 290,
+        note: "韓國女星華莎同款大讚，香脆米果融合濃郁榴槤香",
+        specs: [],
+        coverIcon: "👑",
+        coverBg: "from-[#30280E] to-[#0B1120]"
+      },
+      {
+        id: "msia-11",
+        category: "餅乾零食",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "11. Cap Menara 香味魚餅 80g",
+        price: 290,
+        note: "傳統懷舊海鮮脆餅，鹹香酥脆配茶追劇最佳搭檔",
+        specs: ["原味", "香辣"],
+        coverIcon: "🐟",
+        coverBg: "from-[#1B2B45] to-[#0B1120]"
+      },
+
+      // Row 16-31: 糖果巧克力（編號 12 ~ 27）
+      {
+        id: "msia-12",
+        category: "糖果巧克力",
         badges: [{ text: "人氣", type: "hot" }],
-        title: "日本 Costco 輕便限定精選好物",
-        price: 88,
-        note: "嚴選輕便高價值日本限定款，數量有限先選先得",
-        specs: ["常規限定款", "加購／拼單諮詢"],
-        coverIcon: "🛍️",
-        coverBg: "from-[#121F3D] to-[#080D1A]"
+        title: "12. Beryl's Tiramisu 提拉米蘇巧克力 65g",
+        price: 750,
+        note: "整顆香脆烘焙杏仁裹滿可可粉，絲滑濃郁微苦回甘",
+        specs: ["Almond Dark", "Almond Milk", "Almond White"],
+        coverIcon: "🍫",
+        coverBg: "from-[#241614] to-[#0B1120]"
+      },
+      {
+        id: "msia-13",
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "13. Beryl's Pop 跳跳糖巧克力 50g",
+        price: 750,
+        note: "醇厚巧克力遇上舌尖跳躍跳跳糖，趣味十足新奇口感",
+        specs: ["Fresh Mint Bittersweet Chocolate", "Cola Bittersweet Chocolate", "Lemon White Chocolate"],
+        coverIcon: "✨",
+        coverBg: "from-[#1C1D38] to-[#0B1120]"
+      },
+      {
+        id: "msia-14",
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "14. Himalaya Salt 海鹽糖果 15g",
+        price: 190,
+        note: "天然喜馬拉雅粉紅岩鹽製成，清涼潤喉隨時補充鹽分",
+        specs: ["Ginger Lemon", "(Extra Cool) Mint", "Ambra"],
+        coverIcon: "🧊",
+        coverBg: "from-[#122836] to-[#0B1120]"
+      },
+      {
+        id: "msia-15",
+        category: "糖果巧克力",
+        badges: [],
+        title: "15. Halls 糖果 12.5g",
+        price: 190,
+        note: "隨身清涼薄荷潤喉糖，提神醒腦口氣清新必備",
+        specs: ["Cola Chill", "Lime", "Blueberry", "Watermelon", "Assorted Flavours"],
+        coverIcon: "🍬",
+        coverBg: "from-[#14233D] to-[#0B1120]"
+      },
+      {
+        id: "msia-16",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "16. Crispy 脆米巧克力（25+3入）",
+        price: 990,
+        note: "香濃牛奶巧克力包裹酥脆米粒，大包裝聚會分享最划算",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#2B1B14] to-[#0B1120]"
+      },
+      {
+        id: "msia-17",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "17. Crispy 脆米巧克力 15入",
+        price: 650,
+        note: "經典酥脆米香巧克力輕享裝，獨立包裝隨手解饞",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#291913] to-[#0B1120]"
+      },
+      {
+        id: "msia-18",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "18. Fruit Plus 軟糖（120~150g）",
+        price: 450,
+        note: "超多熱帶水果與經典口味選擇，酸甜耐嚼果香十足",
+        specs: ["Apple", "Banana", "Blackcurrant", "Grape", "Guava", "Lychee", "Mango", "Orange", "Peach", "Pineapple", "Strawberry", "Durian", "Chocolate", "Milk Plus", "Cool Blue", "Mint Plus"],
+        coverIcon: "🍓",
+        coverBg: "from-[#331722] to-[#0B1120]"
+      },
+      {
+        id: "msia-19",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "19. Salt Plus 海鹽糖果 150g",
+        price: 550,
+        note: "酸甜檸檬搭配微鹹海鹽，大袋家庭裝辦公室分享良品",
+        specs: [],
+        coverIcon: "🍋",
+        coverBg: "from-[#2E2911] to-[#0B1120]"
+      },
+      {
+        id: "msia-20",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "20. Fizzy Cola 可樂糖 / 檸檬糖 120g",
+        price: 390,
+        note: "氣泡感十足酸爽滋味，喚醒童年記憶的經典汽水糖",
+        specs: ["Cola", "Lemon"],
+        coverIcon: "🥤",
+        coverBg: "from-[#2B1815] to-[#0B1120]"
+      },
+      {
+        id: "msia-21",
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "21. Lot 100 Q彈水果軟糖 150g",
+        price: 550,
+        note: "濃縮真實果汁製成，Q彈飽滿果香濃郁大人小孩都愛",
+        specs: ["Apple", "Blackcurrant", "Strawberry", "Mango", "Assorted"],
+        coverIcon: "🥭",
+        coverBg: "from-[#33240E] to-[#0B1120]"
+      },
+      {
+        id: "msia-22",
+        category: "糖果巧克力",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "22. Lot 100 Sour+ Q彈軟糖 100g",
+        price: 450,
+        note: "外層微酸糖粉搭配Q彈果汁軟糖，酸甜過癮超開胃",
+        specs: ["Blackcurrant", "Mango", "Orange", "Apple", "Strawberry", "Assorted"],
+        coverIcon: "🍊",
+        coverBg: "from-[#331E0E] to-[#0B1120]"
+      },
+      {
+        id: "msia-23",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "23. Dynamite 薄荷巧克力糖果",
+        price: 350,
+        note: "清涼薄荷外殼包裹濃郁巧克力內餡，雙重層次享受",
+        specs: ["巧克力流心 25入", "巧克力QQ 12入"],
+        coverIcon: "🍬",
+        coverBg: "from-[#122922] to-[#0B1120]"
+      },
+      {
+        id: "msia-24",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "24. Pikin Plum Candy 金梅片 50g",
+        price: 250,
+        note: "傳統古早味山楂金梅片，酸甜生津飯後解膩小零嘴",
+        specs: [],
+        coverIcon: "🌸",
+        coverBg: "from-[#30161B] to-[#0B1120]"
+      },
+      {
+        id: "msia-25",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "25. 張明志無花果經典零食 10g",
+        price: 150,
+        note: "懷舊甘甜無花果絲，生津開胃大馬童年經典小零嘴",
+        specs: [],
+        coverIcon: "🌿",
+        coverBg: "from-[#261E14] to-[#0B1120]"
+      },
+      {
+        id: "msia-26",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "26. 桃花牌無花果經典零食 10g",
+        price: 150,
+        note: "老字號經典無花果乾，酸甜回甘隨身攜帶解饞必備",
+        specs: [],
+        coverIcon: "🍑",
+        coverBg: "from-[#2E1A18] to-[#0B1120]"
+      },
+      {
+        id: "msia-27",
+        category: "糖果巧克力",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "27. Ribena 軟糖 40g",
+        price: 290,
+        note: "富含維他命C的黑加侖果汁軟糖，酸甜Q彈果味純正",
+        specs: ["Mixed Berries", "Peach"],
+        coverIcon: "🍇",
+        coverBg: "from-[#261629] to-[#0B1120]"
+      },
+
+      // Row 33-34: 當地特色伴手禮（編號 28 ~ 29）
+      {
+        id: "msia-28",
+        category: "當地特色伴手禮",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "28. 檳城大山腳 新潮香豆沙餅 32入",
+        price: 1350,
+        note: "檳城老字號手工烘焙，外皮層層酥鬆綠豆沙甜鹹適中",
+        specs: [],
+        coverIcon: "🥮",
+        coverBg: "from-[#2A2118] to-[#0B1120]"
+      },
+      {
+        id: "msia-29",
+        category: "當地特色伴手禮",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "29. 余合 香餅 獨立包裝 290g",
+        price: 990,
+        note: "怡保著名炭燒香餅，麥芽黑糖內餡香濃不黏牙",
+        specs: [],
+        coverIcon: "🍪",
+        coverBg: "from-[#2D1F14] to-[#0B1120]"
+      },
+
+      // Row 37-44: 速食麵湯包（編號 30 ~ 37）
+      {
+        id: "msia-30",
+        category: "速食麵湯包",
+        badges: [],
+        title: "30. A1 肉骨茶湯包",
+        price: 790,
+        note: "精選十餘種道地草本藥材，在家輕鬆燉煮正宗巴生風味",
+        specs: [],
+        coverIcon: "🍲",
+        coverBg: "from-[#2B1815] to-[#0B1120]"
+      },
+      {
+        id: "msia-31",
+        category: "速食麵湯包",
+        badges: [],
+        title: "31. A1 肉骨茶風味 快熟麵",
+        price: 1090,
+        note: "濃郁藥材湯頭搭配彈牙麵條，隨時享受道地南洋宵夜",
+        specs: [],
+        coverIcon: "🍜",
+        coverBg: "from-[#2E1A14] to-[#0B1120]"
+      },
+      {
+        id: "msia-32",
+        category: "速食麵湯包",
+        badges: [],
+        title: "32. Ibumie 原味乾撈炒麵（5+1入）",
+        price: 950,
+        note: "南洋經典甜醬油與香蔥油拌麵，鹹香順口加顆煎蛋更絕",
+        specs: [],
+        coverIcon: "🍝",
+        coverBg: "from-[#2B2014] to-[#0B1120]"
+      },
+      {
+        id: "msia-33",
+        category: "速食麵湯包",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "33. MyKuali 檳城白咖哩麵 4入",
+        price: 1250,
+        note: "世界泡麵排行榜常勝軍，濃郁椰漿與特製辣醬香氣逼人",
+        specs: [],
+        coverIcon: "🍜",
+        coverBg: "from-[#331712] to-[#0B1120]"
+      },
+      {
+        id: "msia-34",
+        category: "速食麵湯包",
+        badges: [],
+        title: "34. Maggi 咖哩快熟麵（5+1入）",
+        price: 950,
+        note: "大馬家喻戶曉國民咖哩麵，濃郁香料湯頭2分鐘快速上桌",
+        specs: [],
+        coverIcon: "🍛",
+        coverBg: "from-[#331E10] to-[#0B1120]"
+      },
+      {
+        id: "msia-35",
+        category: "速食麵湯包",
+        badges: [],
+        title: "35. Maggi 香雞快熟麵 5入",
+        price: 950,
+        note: "清甜醇厚雞湯底搭配爽滑麵身，暖胃百搭經典口味",
+        specs: [],
+        coverIcon: "🍲",
+        coverBg: "from-[#2E2512] to-[#0B1120]"
+      },
+      {
+        id: "msia-36",
+        category: "速食麵湯包",
+        badges: [],
+        title: "36. Mamee Chef 系列 4入",
+        price: 1090,
+        note: "拉麵級彈牙口感搭配名廚秘製湯底，宵夜豪華享受",
+        specs: ["濃郁東炎", "香辣香菇雞", "咖哩叻沙"],
+        coverIcon: "🍜",
+        coverBg: "from-[#301614] to-[#0B1120]"
+      },
+      {
+        id: "msia-37",
+        category: "速食麵湯包",
+        badges: [],
+        title: "37. Mamee 素快熟麵（5+1入）",
+        price: 950,
+        note: "清爽鮮甜純素湯頭，素食者也能安心享用的美味快熟麵",
+        specs: [],
+        coverIcon: "🥬",
+        coverBg: "from-[#162B1D] to-[#0B1120]"
+      },
+
+      // Row 46-53: 咖啡飲品（編號 38 ~ 45）
+      {
+        id: "msia-38",
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "38. ZUS Ngupi 大馬南洋咖啡系列（13~18入）",
+        price: 1250,
+        note: "大馬人氣連鎖咖啡品牌出品，地道南洋香濃烘焙風味",
+        specs: [],
+        coverIcon: "☕",
+        coverBg: "from-[#17213B] to-[#0B1120]"
+      },
+      {
+        id: "msia-39",
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "39. ZUS CEO 濃郁巧克力飲品（13入）",
+        price: 1250,
+        note: "絲滑厚實可可香氣，冷熱沖泡皆能享受咖啡館級享受",
+        specs: [],
+        coverIcon: "🍫",
+        coverBg: "from-[#241816] to-[#0B1120]"
+      },
+      {
+        id: "msia-40",
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "40. ZUS COFFEE Signature Mixes 特調咖啡（5入）",
+        price: 990,
+        note: "多款經典拿鐵特調隨身包，在家輕鬆還原精品手沖質感",
+        specs: ["Caffe Latte", "Mocha Latte", "Dolce Latte", "Caramel Latte", "Cinnamon Latte"],
+        coverIcon: "☕",
+        coverBg: "from-[#1A2442] to-[#0B1120]"
+      },
+      {
+        id: "msia-41",
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "41. 亞發 特濃白咖啡 15入",
+        price: 1590,
+        note: "精選上等咖啡豆低溫烘焙，咖啡香濃厚飽滿回甘悠長",
+        specs: [],
+        coverIcon: "☕",
+        coverBg: "from-[#261B15] to-[#0B1120]"
+      },
+      {
+        id: "msia-42",
+        category: "咖啡飲品",
+        badges: [{ text: "人氣", type: "hot" }],
+        title: "42. 亞發 順滑白咖啡 15入",
+        price: 1350,
+        note: "奶香與咖啡完美黃金比例，口感絲滑溫潤不苦澀",
+        specs: [],
+        coverIcon: "☕",
+        coverBg: "from-[#291E16] to-[#0B1120]"
+      },
+      {
+        id: "msia-43",
+        category: "咖啡飲品",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "43. 檳城火車牌咖啡烏 2in1（含糖）25入",
+        price: 1590,
+        note: "檳城百年傳統炭焙黑咖啡袋，加糖配方香濃順口道地茶室味",
+        specs: [],
+        coverIcon: "🚂",
+        coverBg: "from-[#1F1814] to-[#0B1120]"
+      },
+      {
+        id: "msia-44",
+        category: "咖啡飲品",
+        badges: [{ text: "經典", type: "classic" }],
+        title: "44. 檳城火車牌咖啡烏（無糖）20入",
+        price: 1090,
+        note: "純粹傳統南洋炭燒黑咖啡，無加糖零負擔自由調配奶糖",
+        specs: [],
+        coverIcon: "🫖",
+        coverBg: "from-[#1C1613] to-[#0B1120]"
+      },
+      {
+        id: "msia-45",
+        category: "咖啡飲品",
+        badges: [],
+        title: "45. BOH 寶樂 金馬倫拉茶系列",
+        price: 1350,
+        note: "金馬倫高原優質紅茶製成，茶香濃郁奶泡綿密道地拉茶",
+        specs: ["少甜", "入薑", "拿鐵"],
+        coverIcon: "🧋",
+        coverBg: "from-[#1A2B22] to-[#0B1120]"
       }
     ];
 

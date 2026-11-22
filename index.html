@@ -1258,7 +1258,10 @@
       if (!activeProduct) return;
       const uploaded = getUploadedImages(activeProduct.id);
       const countEl = document.getElementById("detailPhotoCount");
-      countEl.textContent = uploaded.length;
+      if (countEl) {
+          countEl.textContent = uploaded.length;
+    }
+
 
       const trackEl = document.getElementById("detailCarouselTrack");
       const dotsEl = document.getElementById("carouselDots");
